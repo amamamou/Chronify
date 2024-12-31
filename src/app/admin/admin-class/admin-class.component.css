@@ -1,0 +1,154 @@
+/* General container styles */
+.class-container {
+    padding: 20px;
+    background-color: #ffffff;
+    margin-top: 20px;
+    margin-left: 300px; /* Adjust for sidebar width */
+    transition: margin-left 0.3s ease; /* Smooth transition for sidebar toggles */
+}
+
+/* Sidebar styles */
+app-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px; /* Sidebar width */
+    height: 100%;
+    background-color: #4169E1; /* Sidebar background color */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Heading style */
+.class-container h2 {
+    font-family: 'Avenir Next', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #262A41;
+    margin-bottom: 0px;
+    margin-top: 50px;
+}
+
+/* Section title style */
+.section-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: rgba(16, 16, 16, 0.5);
+    margin-bottom: 15px;
+}
+
+/* Table styles */
+table {
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th,
+table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #80808080;
+}
+
+table th {
+    background-color: #f9f9f9;
+    color: #262A41;
+    font-size: 16px;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+table td {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Action buttons */
+button.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #808080;
+    transition: color 0.3s ease;
+    margin-right: 10px;
+}
+
+button.action-btn:hover {
+    color: #333;
+}
+
+/* Add Class Section */
+.add-class-section {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-class-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-class-form .form-group {
+    margin-bottom: 15px;
+}
+
+.add-class-form label {
+    font-size: 14px;
+    color: #333;
+}
+
+.add-class-form input,
+.add-class-form select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.add-class-btn {
+    background-color: #ffffff;
+    color: #101010;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.add-class-btn img {
+    margin-right: 8px;
+}
+
+.add-class-btn:hover {
+    background-color: #365f9e;
+    color: #ffffff;
+}
+
+/* Line under the title */
+.title-underline {
+    width: 50px;
+    height: 3px;
+    background-color: #365f9e; /* Matches sidebar color */
+    margin: 5px 0 50px 0;
+    border-radius: 5px;
+}

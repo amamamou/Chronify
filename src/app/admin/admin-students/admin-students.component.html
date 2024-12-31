@@ -1,0 +1,71 @@
+<app-admin-sidebar></app-admin-sidebar>
+<div class="students-container">
+    <h2>Manage Students</h2>
+    <div class="title-underline"></div>
+  
+    <!-- Add/Update Student Title -->
+    <p class="section-title">Add a Student</p>
+  
+    <!-- Add/Update Student Section -->
+    <div class="add-student-section">
+        <form class="add-student-form">
+            <div class="form-group">
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" name="studentName" placeholder="Enter student name" required>
+            </div>
+            <div class="form-group">
+                <label for="studentAge">Age</label>
+                <input type="number" id="studentAge" name="studentAge" placeholder="Enter student age" required>
+            </div>
+            <div class="form-group">
+                <label for="studentGrade">Grade</label>
+                <select id="studentGrade" name="studentGrade" required>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="F">F</option>
+                </select>
+            </div>
+            <button class="add-student-btn" type="button">
+                <img src="assets/icons/Add.png" alt="Add Student" width="20" height="20">
+                Add Student
+            </button>
+        </form>
+    </div>
+  
+    <!-- Students Title -->
+    <p class="section-title">All Students</p>
+  
+    <!-- Students Table -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th><span>#</span></th>
+                <th><span>Student Name</span></th>
+                <th><span>Age</span></th>
+                <th><span>Grade</span></th>
+                <th><span>Actions</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>John Doe</td>
+                <td>20</td>
+                <td>A</td>
+                <td>
+                    <!-- Update button -->
+                    <button class="action-btn">
+                        <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30">
+                    </button>
+                    <!-- Delete button -->
+                    <button class="action-btn">
+                        <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30">
+                    </button>
+                </td>
+            </tr>
+            <!-- Additional rows can be added here -->
+        </tbody>
+    </table>
+</div>

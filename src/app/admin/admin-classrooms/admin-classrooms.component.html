@@ -1,0 +1,69 @@
+<app-admin-sidebar></app-admin-sidebar>
+<div class="classrooms-container">
+    <h2>Manage Classrooms (Salle de Cours)</h2>
+    <div class="title-underline"></div>
+  
+    <!-- Add/Update Classroom Title -->
+    <p class="section-title">Add a Classroom</p>
+  
+    <!-- Add/Update Classroom Section -->
+    <div class="add-classroom-section">
+        <form class="add-classroom-form">
+            <div class="form-group">
+                <label for="classroomName">Classroom Name</label>
+                <input type="text" id="classroomName" name="classroomName" placeholder="Enter classroom name" required>
+            </div>
+            <div class="form-group">
+                <label for="classroomCapacity">Capacity</label>
+                <input type="number" id="classroomCapacity" name="classroomCapacity" placeholder="Enter capacity" required>
+            </div>
+            <div class="form-group">
+                <label for="classroomType">Type</label>
+                <select id="classroomType" name="classroomType" required>
+                    <option value="Lecture">Lecture</option>
+                    <option value="Lab">Lab</option>
+                    <option value="Seminar">Seminar</option>
+                </select>
+            </div>
+            <button class="add-classroom-btn" type="button">
+                <img src="assets/icons/Add.png" alt="Add Classroom" width="20" height="20">
+                Add Classroom
+            </button>
+        </form>
+    </div>
+  
+    <!-- Classrooms Title -->
+    <p class="section-title">All Classrooms</p>
+  
+    <!-- Classrooms Table -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th><span>#</span></th>
+                <th><span>Classroom Name</span></th>
+                <th><span>Capacity</span></th>
+                <th><span>Type</span></th>
+                <th><span>Actions</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Room 101</td>
+                <td>30</td>
+                <td>Lecture</td>
+                <td>
+                    <!-- Update button -->
+                    <button class="action-btn">
+                        <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30">
+                    </button>
+                    <!-- Delete button -->
+                    <button class="action-btn">
+                        <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30">
+                    </button>
+                </td>
+            </tr>
+            <!-- Additional rows can be added here -->
+        </tbody>
+    </table>
+</div>

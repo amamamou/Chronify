@@ -1,0 +1,76 @@
+<app-admin-sidebar></app-admin-sidebar>
+<div class="class-container">
+    <h2>Manage Classes (Groupes d'Étudiants)</h2>
+    <div class="title-underline"></div>
+  
+    <!-- Add/Update Class Title -->
+    <p class="section-title">Add a Class</p>
+  
+    <!-- Add/Update Class Section -->
+    <div class="add-class-section">
+        <form class="add-class-form">
+            <div class="form-group">
+                <label for="className">Class Name</label>
+                <input type="text" id="className" name="className" placeholder="Enter class name" required>
+            </div>
+            <div class="form-group">
+                <label for="professor">Professor</label>
+                <input type="text" id="professor" name="professor" placeholder="Enter professor name" required>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" placeholder="Enter subject" required>
+            </div>
+            <div class="form-group">
+                <label for="students">Students</label>
+                <select id="students" name="students" multiple required>
+                    <option value="student1">Student 1</option>
+                    <option value="student2">Student 2</option>
+                    <option value="student3">Student 3</option>
+                    <!-- Add more students as needed -->
+                </select>
+            </div>
+            <button class="add-class-btn" type="button">
+                <img src="assets/icons/Add.png" alt="Add Class" width="20" height="20">
+                Add Class
+            </button>
+        </form>
+    </div>
+  
+    <!-- Classes Title -->
+    <p class="section-title">All Classes</p>
+  
+    <!-- Classes Table -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th><span>#</span></th>
+                <th><span>Class Name</span></th>
+                <th><span>Professor</span></th>
+                <th><span>Subject</span></th>
+                <th><span>Students</span></th>
+                <th><span>Actions</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Mathematics 101</td>
+                <td>Dr. John Doe</td>
+                <td>Mathematics</td>
+                <td>Student 1, Student 2, Student 3</td>
+                <td>
+                    <!-- Update button -->
+                    <button class="action-btn">
+                        <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30">
+                    </button>
+                    <!-- Delete button -->
+                    <button class="action-btn">
+                        <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30">
+                    </button>
+                </td>
+            </tr>
+            <!-- Additional rows can be added here -->
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,71 @@
+<app-admin-sidebar></app-admin-sidebar>
+<div class="course-container">
+    <h2>Manage Courses (Matières)</h2>
+    <div class="title-underline"></div>
+  
+    <!-- Add/Update Course Title -->
+    <p class="section-title">Add a Course</p>
+  
+    <!-- Add/Update Course Section -->
+    <div class="add-course-section">
+        <form class="add-course-form">
+            <div class="form-group">
+                <label for="courseName">Course Name</label>
+                <input type="text" id="courseName" name="courseName" placeholder="Enter course name" required>
+            </div>
+            <div class="form-group">
+                <label for="courseCode">Course Code</label>
+                <input type="text" id="courseCode" name="courseCode" placeholder="Enter course code" required>
+            </div>
+            <div class="form-group">
+                <label for="professor">Professor</label>
+                <input type="text" id="professor" name="professor" placeholder="Enter professor name" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Department</label>
+                <input type="text" id="department" name="department" placeholder="Enter department" required>
+            </div>
+            <button class="add-course-btn" type="button">
+                <img src="assets/icons/Add.png" alt="Add Course" width="20" height="20">
+                Add Course
+            </button>
+        </form>
+    </div>
+  
+    <!-- Courses Title -->
+    <p class="section-title">All Courses</p>
+  
+    <!-- Courses Table -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th><span>#</span></th>
+                <th><span>Course Name</span></th>
+                <th><span>Course Code</span></th>
+                <th><span>Professor</span></th>
+                <th><span>Department</span></th>
+                <th><span>Actions</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Introduction to AI</td>
+                <td>AI101</td>
+                <td>Dr. Alice Smith</td>
+                <td>Computer Science</td>
+                <td>
+                    <!-- Update button -->
+                    <button class="action-btn">
+                        <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30">
+                    </button>
+                    <!-- Delete button -->
+                    <button class="action-btn">
+                        <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30">
+                    </button>
+                </td>
+            </tr>
+            <!-- Additional rows can be added here -->
+        </tbody>
+    </table>
+</div>
