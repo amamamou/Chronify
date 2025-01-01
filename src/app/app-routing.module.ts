@@ -12,6 +12,8 @@ import { AdminEstablishmentsComponent } from './admin/admin-establishments/admin
 import { AdminClassroomsComponent } from './admin/admin-classrooms/admin-classrooms.component';
 import { AdminClassComponent } from './admin/admin-class/admin-class.component';
 import { AdminCourseComponent } from './admin/admin-course/admin-course.component';
+import { UserHomeComponent } from './user/user-home/user-home.component';
+import { TeacherHomeComponent } from './teacher/teacher-home/teacher-home.component';
 
 // Define routes
 const routes: Routes = [
@@ -19,6 +21,10 @@ const routes: Routes = [
   { path: '', component: HomeComponent }, // Route for the home component
   { path: 'login', component: LoginComponent }, // Route for the login component
   
+  // User-related routes
+  { path: 'user', component: UserHomeComponent }, // Admin students management
+  { path: 'teacher', component: TeacherHomeComponent }, // Admin students management
+
   // Admin-related routes
   { path: 'admin/students', component: AdminStudentsComponent }, // Admin students management
   { path: 'admin/teachers', component: AdminTeachersComponent }, // Admin teachers management

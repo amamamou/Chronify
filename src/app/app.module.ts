@@ -14,6 +14,8 @@ import { AdminClassroomsComponent } from './admin/admin-classrooms/admin-classro
 import { AdminClassComponent } from './admin/admin-class/admin-class.component';
 import { AdminCourseComponent } from './admin/admin-course/admin-course.component';
 import { AdminSidebarComponent } from './admin/admin-sidebar/admin-sidebar.component';
+import { UserHomeComponent } from './user/user-home/user-home.component';
+import { TeacherHomeComponent } from './teacher/teacher-home/teacher-home.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { AdminSidebarComponent } from './admin/admin-sidebar/admin-sidebar.compo
     AdminClassroomsComponent,
     AdminClassComponent,
     AdminCourseComponent,
-    AdminSidebarComponent
+    AdminSidebarComponent,
+    UserHomeComponent,
+    TeacherHomeComponent
   ],
   imports: [
     BrowserModule,

@@ -29,6 +29,11 @@
     text-decoration: none; /* Remove underline */
     color: inherit; /* Inherit color from parent */
     padding: 10px 0; /* Add padding for consistent spacing */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover */
+}
+
+.menu-item a:hover {    background-color: #4e7bbf; /* Change background color on hover */
+    color: #ffffff; /* Ensure text color stays white on hover */
 }
 
 .menu-item img {
@@ -45,10 +50,12 @@
 .logout {
     margin-top: auto; /* Push logout to the bottom */
 }
+
 .logo {
     margin-top: 10px; /* Adjust this value to move the logo down */
     text-align: center; /* Optional: centers the logo horizontally */
 }
+
 .site-title {
     font-family: 'Montserrat', sans-serif;
     font-size: 24px;
@@ -60,8 +67,8 @@
     margin-left: 10px; /* Adds some space between the logo and text */
     position: relative;
     top: -8px; /* Adjust this value to raise the text higher */
-  }
-  .logo img {
+}
+
+.logo img {
     height: 50px;
-  }
-  
+}
