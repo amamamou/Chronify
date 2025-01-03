@@ -23,9 +23,10 @@
         <div class="dashboard-cards-container">
           <div class="dashboard-card" *ngFor="let item of dashboardItems" 
                (click)="item.title === 'Manage Profile' ? toggleProfileForm() : 
+                        (item.title === 'Profile Details' ? toggleProfile() : 
                         (item.title === 'Messages' ? toggleMessages() : 
-                        (item.title === 'Class Schedule' ? toggleSchedule() : 
-                        item.title === 'Support Center' ? toggleSupport() :null))">
+                        (item.title === 'My Schedule' ? toggleSchedule() : 
+                        (item.title === 'Support Center' ? toggleSupport() :null))))">
             <div class="card-icon">
               <img [src]="item.icon" alt="{{ item.title }} Icon">
             </div>
@@ -36,6 +37,36 @@
           </div>
         </div>      
     </section>
+    <div *ngIf="isProfileVisible" class="details-overlay">
+        <div class="details-form-container">
+          <button class="close-button" (click)="toggleProfile()">❌</button>
+          <div class="details-header">
+            <img
+              *ngIf="teacherProfile.photoUrl"
+              [src]="teacherProfile.photoUrl"
+              alt="{{ teacherProfile.name }}"
+              style="border-radius: 50%; width: 80px; height: 80px;"
+            />
+            <h2 class="details-title">{{ teacherProfile.name }}</h2>
+            <p class="details-subtitle">{{ teacherProfile.institution }}</p>
+          </div>
+          <div class="details-content">
+            <div class="details-section">
+              <h3>Subjects</h3>
+              <p>{{ teacherProfile.subjects.join(', ') }}</p>
+            </div>
+            <div class="details-section">
+              <h3>Classes</h3>
+              <p>{{ teacherProfile.classes.join(', ') }}</p>
+            </div>
+            <div class="details-section">
+              <h3>Contact</h3>
+              <p>Email: {{ teacherProfile.email }}</p>
+              <p *ngIf="teacherProfile.phone">Phone: {{ teacherProfile.phone }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
       
     <!-- Full-page Overlay Form for Manage Profile -->
     <div *ngIf="isProfileFormVisible" class="profile-overlay">
@@ -65,12 +96,12 @@
         <section id="schedule" class="schedule-container">
           <h2>📅 Class Schedule</h2>
           <p class="section-description">Your teaching schedule with subjects and classroom assignments.</p>
+          <button class="close-button" (click)="toggleSchedule()">❌</button>
           
           <!-- Print Button -->
           <button class="print-button" (click)="printSchedule()">Print</button>
     
           <!-- Close Button Inside the Container -->
-          <button class="close-button" (click)="toggleSchedule()">❌</button>
     
           <table class="schedule-table">
             <thead>
@@ -141,44 +172,43 @@
         </div>
     </div>
   
-    <!-- Events Section -->
-    <section id="events" class="events">
-        <h2>🎊 Upcoming Events</h2>
+    <!-- Conferences Section -->
+    <section id="conferences" class="conferences">
+        <h2>🎊 Upcoming Conferences</h2>
         <p class="section-description">
-          Stay informed about our upcoming events designed to enhance your learning experience and foster community engagement.
+          Stay informed about our upcoming conferences designed to enhance your professional development and foster networking opportunities.
         </p>
         <div class="cards-container" id="events-container" (scroll)="updateActiveDot('events-container', 'activeEventIndex')">
-          <div *ngFor="let event of events; let i = index" class="card">
-            <img [src]="event.image" alt="Event Image" class="card-image">
-          </div>
-        </div>
-        <div class="dots-container">
-          <span *ngFor="let dot of dots; let i = index" class="dot" [class.active]="activeEventIndex === i" (click)="scrollToEventGroup(i)"></span>
-        </div>
-      </section>
-    
-      <!-- Courses Section -->
-      <section id="courses" class="courses">
-        <h2>📚 Available Courses</h2>
-        <p class="section-description">
-          Explore our wide range of professionally curated courses aimed at boosting your skills and empowering your career growth.
-        </p>
-        <div class="cards-container" id="courses-container" (scroll)="updateActiveDot('courses-container', 'activeCourseIndex')">
-          <div *ngFor="let course of courses; let i = index" class="card">
-            <img [src]="course.image" alt="Course Image" class="card-image">
-            <div class="card-content">
-              <h3>{{ course.title }}</h3>
+            <div *ngFor="let event of events; let i = index" class="card">
+              <img [src]="event.image" alt="Event Image" class="card-image">
             </div>
           </div>
-        </div>
-        <div class="dots-container">
-          <span *ngFor="let dot of dots; let i = index" class="dot" [class.active]="activeCourseIndex === i" (click)="scrollToCourseGroup(i)"></span>
-        </div>
-      </section>
+          <div class="dots-container">
+            <span *ngFor="let dot of dots; let i = index" class="dot" [class.active]="activeEventIndex === i" (click)="scrollToEventGroup(i)"></span>
+          </div>
+        </section>
+    
+      <!-- Seminars Section -->
+      <section id="seminars" class="seminars">
+        <h2>📚 Available Seminars</h2>
+        <p class="section-description">
+          Explore our wide range of professionally curated seminars aimed at boosting your skills and empowering your career growth.
+        </p>
+        <div class="cards-container" id="courses-container" (scroll)="updateActiveDot('courses-container', 'activeCourseIndex')">
+            <div *ngFor="let course of courses; let i = index" class="card">
+              <img [src]="course.image" alt="Course Image" class="card-image">
+              <div class="card-content">
+                <h3>{{ course.title }}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="dots-container">
+            <span *ngFor="let dot of dots; let i = index" class="dot" [class.active]="activeCourseIndex === i" (click)="scrollToCourseGroup(i)"></span>
+          </div>
+        </section>
     
       <!-- Footer -->
       <footer class="footer">
         <p>© 2025 TimeMaster. All Rights Reserved.</p>
       </footer>
     </div>
-    

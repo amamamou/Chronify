@@ -16,16 +16,17 @@
   
     <!-- User Dashboard Section -->
     <section id="dashboard" class="user-dashboard">
-        <h2>🎉 Dashboard</h2>
+        <h2>🎓 User Dashboard</h2>
         <p class="section-description">
           Access your key features and tools to manage your account, schedule, and notifications seamlessly.
         </p>
         <div class="dashboard-cards-container">
           <div class="dashboard-card" *ngFor="let item of dashboardItems" 
                (click)="item.title === 'Manage Profile' ? toggleProfileForm() : 
+                        (item.title === 'Profile Details' ? toggleProfile() : 
                         (item.title === 'Messages' ? toggleMessages() : 
                         (item.title === 'My Schedule' ? toggleSchedule() : 
-                        item.title === 'Support Center' ? toggleSupport() :null))">
+                        item.title === 'Support Center' ? toggleSupport() :null)))">
             <div class="card-icon">
               <img [src]="item.icon" alt="{{ item.title }} Icon">
             </div>
@@ -37,7 +38,37 @@
         </div>      
       </section>
       
-  
+      <div *ngIf="isProfileVisible" class="details-overlay">
+        <div class="details-form-container">
+          <button class="close-button" (click)="toggleProfile()">❌</button>
+          <div class="details-header">
+            <img
+              *ngIf="studentProfile.photoUrl"
+              [src]="studentProfile.photoUrl"
+              alt="{{ studentProfile.name }}"
+              style="border-radius: 50%; width: 80px; height: 80px;"
+            />
+            <h2 class="details-title">{{ studentProfile.name }}</h2>
+            <p class="details-subtitle">Grade: {{ studentProfile.grade }}</p>
+          </div>
+          <div class="details-content">
+            <div class="details-section">
+              <h3>Institution</h3>
+              <p>{{ studentProfile.institution }}</p>
+            </div>
+            <div class="details-section">
+              <h3>Enrolled Classes</h3>
+              <p>{{ studentProfile.classes.join(', ') }}</p>
+            </div>
+            <div class="details-section">
+              <h3>Contact</h3>
+              <p>Email: {{ studentProfile.email }}</p>
+              <p *ngIf="studentProfile.phone">Phone: {{ studentProfile.phone }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
 <!-- Full-page Overlay Form for Manage Profile -->
 <div *ngIf="isProfileFormVisible" class="profile-overlay">
     <div class="profile-form-container">
@@ -61,17 +92,15 @@
     </div>
   </div>
   
-<!-- Schedule Section -->
+<!-- Class Schedule Section -->
 <div *ngIf="isScheduleVisible" class="overlay">
     <section id="schedule" class="schedule-container">
-      <h2>📅 Weekly Schedule</h2>
-      <p class="section-description">Your weekly class schedule with subjects and classroom assignments.</p>
-      
-      <!-- Print Button -->
-      <button class="print-button" (click)="printSchedule()">Imprimer</button>
-  
-      <!-- Close Button Inside the Container -->
+      <h2>📅 Class Schedule</h2>
+      <p class="section-description">Your teaching schedule with subjects and classroom assignments.</p>
       <button class="close-button" (click)="toggleSchedule()">❌</button>
+  
+      <!-- Print Button -->
+      <button class="print-button" (click)="printSchedule()">Print</button>
   
       <table class="schedule-table">
         <thead>

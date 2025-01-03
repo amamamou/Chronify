@@ -16,6 +16,7 @@ import { AdminCourseComponent } from './admin/admin-course/admin-course.componen
 import { AdminSidebarComponent } from './admin/admin-sidebar/admin-sidebar.component';
 import { UserHomeComponent } from './user/user-home/user-home.component';
 import { TeacherHomeComponent } from './teacher/teacher-home/teacher-home.component';
+import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { TeacherHomeComponent } from './teacher/teacher-home/teacher-home.compon
     AdminCourseComponent,
     AdminSidebarComponent,
     UserHomeComponent,
-    TeacherHomeComponent
+    TeacherHomeComponent,
+    AdminHomeComponent
   ],
   imports: [
     BrowserModule,

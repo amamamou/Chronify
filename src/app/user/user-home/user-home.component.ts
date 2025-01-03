@@ -5,6 +5,16 @@ interface Message {
   subject: string;
   content: string;
 }
+export interface StudentProfile {
+  id: number;
+  name: string;
+  institution: string;
+  grade: string;
+  classes: string[];
+  email: string;
+  phone?: string; // Optional field
+  photoUrl?: string; // Optional field for profile picture
+}
 
 @Component({
   selector: 'app-user-home',
@@ -42,9 +52,14 @@ export class UserHomeComponent {
 
   dashboardItems = [
     {
+      title: "Profile Details",
+      description: "Access your account information and personal details.",
+      icon: "assets/user/1.png"
+    },
+    {
       title: "Manage Profile",
       description: "Update personal information, change your password, or upload a profile picture.",
-      icon: "assets/user/1.png"
+      icon: "assets/user/3.png"
     },
     {
       title: "My Schedule",
@@ -63,11 +78,6 @@ export class UserHomeComponent {
       icon: "assets/user/5.png"
     },
     {
-      title: "Settings",
-      description: "Customize your preferences, including themes and privacy options.",
-      icon: "assets/user/3.png"
-    },
-    {
       title: "Support Center",
       description: "Get help with common issues or contact support for assistance.",
       icon: "assets/user/6.png"
@@ -84,6 +94,16 @@ export class UserHomeComponent {
     }
   ];
 
+  studentProfile: StudentProfile = {
+    id: 1,
+    name: 'Jane Smith',
+    institution: 'Elite International Academy',
+    grade: 'Grade 10',
+    classes: ['Mathematics', 'English Literature', 'Biology'],
+    email: 'janesmith@student.eliteacademy.com',
+    phone: '+1 987 654 321',
+    photoUrl: 'assets/student1.jpg',
+  };
   messages: Message[] = [
     { sender: 'John Doe', subject: 'Meeting Reminder', content: 'Don\'t forget about the meeting tomorrow at 10 AM.' },
     { sender: 'Jane Smith', subject: 'Course Update', content: 'Your course material has been updated, please check.' },
@@ -104,23 +124,37 @@ export class UserHomeComponent {
     { day: 'Wednesday', time: '1:00 PM - 3:00 PM', subject: 'History 101' }
   ];
 
-  printSchedule() {
+  printSchedule(): void {
+    // Temporarily hide elements that should not be printed (e.g., buttons, headers)
+    const elementsToHide = document.querySelectorAll('.no-print');
+    elementsToHide.forEach(element => element.setAttribute('style', 'display: none;'));
+  
+    // Trigger the print dialog
     window.print();
+  
+    // After printing, restore the hidden elements
+    elementsToHide.forEach(element => element.removeAttribute('style'));
   }
+  
 
   dots = [0, 1, 2]; // 4 dots for navigation
   activeEventIndex = 0;
   activeCourseIndex = 0;
 
   [key: string]: any;  // This allows dynamic property access
-
+  isProfileVisible = false;
   isProfileFormVisible = false;  // Property to control the overlay visibility
   isMessagesVisible = false;  // Property to control the messages overlay visibility
   isScheduleVisible: boolean = false;
   isSupportVisible: boolean = false;
 
-  toggleProfileForm() {
-    this.isProfileFormVisible = !this.isProfileFormVisible;  // Toggle form visibility
+  toggleProfile(): void {
+    this.isProfileVisible = !this.isProfileVisible;
+    this.closeOtherOverlays('details');
+  }
+  toggleProfileForm(): void {
+    this.isProfileFormVisible = !this.isProfileFormVisible;
+    this.closeOtherOverlays('profile');
   }
   toggleMessages() {
     this.isMessagesVisible = !this.isMessagesVisible;  // Toggle messages visibility
@@ -132,7 +166,15 @@ export class UserHomeComponent {
     this.isSupportVisible = !this.isSupportVisible;
   }
    
-   
+     // Close other overlays when one is opened
+  private closeOtherOverlays(activeOverlay: string): void {
+    if (activeOverlay !== 'profile') this.isProfileFormVisible = false;
+    if (activeOverlay !== 'details') this.isProfileVisible = false;
+
+    if (activeOverlay !== 'schedule') this.isScheduleVisible = false;
+    if (activeOverlay !== 'messages') this.isMessagesVisible = false;
+    if (activeOverlay !== 'support') this.isSupportVisible = false;
+  }
 
   scrollToEventGroup(index: number): void {
     this.activeEventIndex = index;

@@ -4,43 +4,68 @@ interface Message {
   subject: string;
   content: string;
 }
+export interface TeacherProfile {
+  id: number;
+  name: string;
+  institution: string;
+  subjects: string[];
+  classes: string[];
+  email: string;
+  phone?: string; // Optional field
+  photoUrl?: string; // Optional field for profile picture
+}
 @Component({
   selector: 'app-teacher-home',
   templateUrl: './teacher-home.component.html',
   styleUrls: ['./teacher-home.component.css']
 })
 export class TeacherHomeComponent {
+  teacherProfile: TeacherProfile = {
+    id: 1,
+    name: 'John Doe',
+    institution: 'Elite International Academy',
+    subjects: ['Mathematics', 'Physics'],
+    classes: ['Grade 10', 'Grade 11'],
+    email: 'johndoe@eliteacademy.com',
+    phone: '+1 234 567 890',
+    photoUrl: 'assets/teacher1.jpg',
+  };
   events = [
-    { image: 'assets/events/1.jpg' },
-    { image: 'assets/events/2.jpg' },
-    { image: 'assets/events/3.jpg' },
-    { image: 'assets/events/4.jpg' },
-    { image: 'assets/events/5.jpg' },
-    { image: 'assets/events/6.jpg' },
-    { image: 'assets/events/7.jpg' },
-    { image: 'assets/events/8.jpg' },
-    { image: 'assets/events/9.jpg' },
-    { image: 'assets/events/10.jpg' }
+    { image: 'assets/conf/1.jpg' },
+    { image: 'assets/conf/2.jpg' },
+    { image: 'assets/conf/3.jpg' },
+    { image: 'assets/conf/4.jpg' },
+    { image: 'assets/conf/5.jpg' },
+    { image: 'assets/conf/6.jpg' },
+    { image: 'assets/conf/7.jpg' },
+    { image: 'assets/conf/8.jpg' },
+    { image: 'assets/conf/9.jpg' },
+    { image: 'assets/conf/10.jpg' }
   ];
 
   courses = [
-    { image: 'assets/courses/1.jpg', title: 'Course 1' },
-    { image: 'assets/courses/2.jpg', title: 'Course 2' },
-    { image: 'assets/courses/3.jpg', title: 'Course 3' },
-    { image: 'assets/courses/4.jpg', title: 'Course 4' },
-    { image: 'assets/courses/5.jpg', title: 'Course 5' },
-    { image: 'assets/courses/6.jpg', title: 'Course 6' },
-    { image: 'assets/courses/7.jpg', title: 'Course 7' },
-    { image: 'assets/courses/8.jpg', title: 'Course 8' },
-    { image: 'assets/courses/9.jpg', title: 'Course 9' },
-    { image: 'assets/courses/10.jpg', title: 'Course 10' }
+    { image: 'assets/sem/1.jpg', title: 'Course 1' },
+    { image: 'assets/sem/2.jpg', title: 'Course 2' },
+    { image: 'assets/sem/3.jpg', title: 'Course 3' },
+    { image: 'assets/sem/4.jpg', title: 'Course 4' },
+    { image: 'assets/sem/5.jpg', title: 'Course 5' },
+    { image: 'assets/sem/1.jpg', title: 'Course 1' },
+    { image: 'assets/sem/2.jpg', title: 'Course 2' },
+    { image: 'assets/sem/3.jpg', title: 'Course 3' },
+    { image: 'assets/sem/4.jpg', title: 'Course 4' },
+    { image: 'assets/sem/5.jpg', title: 'Course 5' },
   ];
 
   dashboardItems = [
     {
+      title: "Profile Details",
+      description: "Access your account information and personal details.",
+      icon: "assets/user/1.png"
+    },
+    {
       title: "Manage Profile",
       description: "Update personal information, change your password, or upload a profile picture.",
-      icon: "assets/user/1.png"
+      icon: "assets/user/3.png"
     },
     {
       title: "My Schedule",
@@ -57,11 +82,6 @@ export class TeacherHomeComponent {
       title: "Messages",
       description: "Communicate with your instructors, peers, or support team.",
       icon: "assets/user/5.png"
-    },
-    {
-      title: "Settings",
-      description: "Customize your preferences, including themes and privacy options.",
-      icon: "assets/user/3.png"
     },
     {
       title: "Support Center",
@@ -102,6 +122,7 @@ export class TeacherHomeComponent {
 
 
   // Visibility flags for overlays
+  isProfileVisible = false;
   isProfileFormVisible = false;
   isScheduleVisible = false;
   isMessagesVisible = false;
@@ -112,6 +133,11 @@ export class TeacherHomeComponent {
 
   [key: string]: any;  // This allows dynamic property access
   // Methods to toggle visibility
+
+  toggleProfile(): void {
+    this.isProfileVisible = !this.isProfileVisible;
+    this.closeOtherOverlays('details');
+  }
   toggleProfileForm(): void {
     this.isProfileFormVisible = !this.isProfileFormVisible;
     this.closeOtherOverlays('profile');
@@ -135,6 +161,8 @@ export class TeacherHomeComponent {
   // Close other overlays when one is opened
   private closeOtherOverlays(activeOverlay: string): void {
     if (activeOverlay !== 'profile') this.isProfileFormVisible = false;
+    if (activeOverlay !== 'details') this.isProfileVisible = false;
+
     if (activeOverlay !== 'schedule') this.isScheduleVisible = false;
     if (activeOverlay !== 'messages') this.isMessagesVisible = false;
     if (activeOverlay !== 'support') this.isSupportVisible = false;
