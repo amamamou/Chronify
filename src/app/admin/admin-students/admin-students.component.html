@@ -20,6 +20,7 @@
     <!-- Notification Icon -->
     <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
 </div>
+
 <div class="students-container">
     <h2>Manage Students</h2>
     <div class="title-underline"></div>
@@ -29,26 +30,21 @@
   
     <!-- Add/Update Student Section -->
     <div class="add-student-section">
-        <form class="add-student-form">
+        <form class="add-student-form" (ngSubmit)="addStudent()">
             <div class="form-group">
                 <label for="studentName">Student Name</label>
-                <input type="text" id="studentName" name="studentName" placeholder="Enter student name" required>
+                <input type="text" id="studentName" [(ngModel)]="studentName" name="studentName" placeholder="Enter student name" required>
             </div>
+
+            <!-- Select Class Dropdown -->
             <div class="form-group">
-                <label for="studentAge">Age</label>
-                <input type="number" id="studentAge" name="studentAge" placeholder="Enter student age" required>
-            </div>
-            <div class="form-group">
-                <label for="studentGrade">Grade</label>
-                <select id="studentGrade" name="studentGrade" required>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="F">F</option>
+                <label for="classSelect">Select Class</label>
+                <select id="classSelect" [(ngModel)]="selectedClassId" name="classSelect" required>
+                    <option *ngFor="let class of classes" [value]="class.id">{{ class.name }}</option>
                 </select>
             </div>
-            <button class="add-student-btn" type="button">
+
+            <button class="add-student-btn" type="submit">
                 <img src="assets/icons/Add.png" alt="Add Student" width="20" height="20">
                 Add Student
             </button>
@@ -64,29 +60,26 @@
             <tr>
                 <th><span>#</span></th>
                 <th><span>Student Name</span></th>
-                <th><span>Age</span></th>
-                <th><span>Grade</span></th>
+                <th><span>Class</span></th>
                 <th><span>Actions</span></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>20</td>
-                <td>A</td>
+            <tr *ngFor="let student of students">
+                <td>{{ student.id }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.class?.name || 'No class' }}</td>
                 <td>
                     <!-- Update button -->
                     <button class="action-btn">
                         <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30">
                     </button>
                     <!-- Delete button -->
-                    <button class="action-btn">
+                    <button class="action-btn" (click)="deleteStudent(student.id)">
                         <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30">
                     </button>
                 </td>
             </tr>
-            <!-- Additional rows can be added here -->
         </tbody>
     </table>
 </div>

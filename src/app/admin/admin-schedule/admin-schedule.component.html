@@ -1,0 +1,79 @@
+<app-admin-sidebar></app-admin-sidebar>
+
+<div class="schedule-container">
+  <div class="top-right-section">
+    <div class="search-bar">
+      <input type="text" placeholder="Search" class="search-input" />
+    </div>
+
+    <div class="profile-section">
+      <div class="profile-pic">
+        <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
+      </div>
+      <div class="profile-info">
+        <p class="admin-name">Admin Name</p>
+        <p class="admin-email">admin@example.com</p>
+      </div>
+    </div>
+
+    <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
+  </div>
+
+  <h2>Schedule Timetable</h2>
+  <div class="title-underline"></div>
+
+  <!-- Filter Section -->
+  <div class="filters">
+    <label for="dayFilter">Day:</label>
+    <select id="dayFilter" [(ngModel)]="selectedDay">
+      <option value="">All</option>
+      <option value="Monday">Monday</option>
+      <option value="Tuesday">Tuesday</option>
+      <option value="Wednesday">Wednesday</option>
+      <option value="Thursday">Thursday</option>
+      <option value="Friday">Friday</option>
+      <option value="Saturday">Saturday</option>
+    </select>
+
+    <label for="teacherFilter">Teacher:</label>
+    <input id="teacherFilter" [(ngModel)]="selectedTeacher" placeholder="Teacher Name" />
+
+    <label for="classFilter">Class:</label>
+    <input id="classFilter" [(ngModel)]="selectedClass" placeholder="Class Name" />
+  </div>
+
+  <!-- Print Button -->
+  <div class="print-btn-container">
+    <button class="print-btn" (click)="printSchedule()">Print</button>
+  </div>
+
+  <!-- Table Section -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Day</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Duration</th>
+        <th>Teacher</th>
+        <th>Subject</th>
+        <th>Classroom</th>
+        <th>Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let schedule of filteredSchedules">
+        <td>{{ schedule.id }}</td>
+        <td>{{ schedule.day }}</td>
+        <td>{{ schedule.startTime }}</td>
+        <td>{{ schedule.endTime }}</td>
+        <td>{{ schedule.duree }}</td>
+        <td>{{ schedule.teacher?.name }}</td>
+        <td>{{ schedule.subject?.name }}</td>
+        <td>{{ schedule.classroom?.name }}</td>
+        <td>{{ schedule.class?.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

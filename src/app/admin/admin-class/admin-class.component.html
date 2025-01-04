@@ -1,97 +1,81 @@
 <app-admin-sidebar></app-admin-sidebar>
 <div class="class-container">
     <!-- Profile and Notification Section -->
-<div class="top-right-section">
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <input type="text" placeholder="Search" class="search-input" />
+    <div class="top-right-section">
+        <div class="search-bar">
+            <input type="text" placeholder="Search" class="search-input" />
+        </div>
+
+        <div class="profile-section">
+            <div class="profile-pic">
+                <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
+            </div>
+            <div class="profile-info">
+                <p class="admin-name">Admin Name</p>
+                <p class="admin-email">admin@example.com</p>
+            </div>
+        </div>
+
+        <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
     </div>
 
-    <!-- Profile Section -->
-    <div class="profile-section">
-        <div class="profile-pic">
-            <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
-        </div>
-        <div class="profile-info">
-            <p class="admin-name">Admin Name</p>
-            <p class="admin-email">admin@example.com</p>
-        </div>
-    </div>
-
-    <!-- Notification Icon -->
-    <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
-</div>
     <h2>Manage Classes (Groupes d'Étudiants)</h2>
     <div class="title-underline"></div>
-  
+
     <!-- Add/Update Class Title -->
     <p class="section-title">Add a Class</p>
-  
+
     <!-- Add/Update Class Section -->
     <div class="add-class-section">
-        <form class="add-class-form">
+        <form (ngSubmit)="addClass()" class="add-class-form">
             <div class="form-group">
                 <label for="className">Class Name</label>
-                <input type="text" id="className" name="className" placeholder="Enter class name" required>
+                <input type="text" id="className" name="className" [(ngModel)]="newClass.name" placeholder="Enter class name" required>
             </div>
-            <div class="form-group">
-                <label for="professor">Professor</label>
-                <input type="text" id="professor" name="professor" placeholder="Enter professor name" required>
-            </div>
-            <div class="form-group">
-                <label for="subject">Subject</label>
-                <input type="text" id="subject" name="subject" placeholder="Enter subject" required>
-            </div>
+        
             <div class="form-group">
                 <label for="students">Students</label>
-                <select id="students" name="students" multiple required>
-                    <option value="student1">Student 1</option>
-                    <option value="student2">Student 2</option>
-                    <option value="student3">Student 3</option>
-                    <!-- Add more students as needed -->
+                <select id="students" name="students" [(ngModel)]="newClass.students" multiple required>
+                    <option *ngFor="let student of students" [value]="student.id">{{ student.name }}</option>
                 </select>
             </div>
-            <button class="add-class-btn" type="button">
+            <button class="add-class-btn" type="submit">
                 <img src="assets/icons/Add.png" alt="Add Class" width="20" height="20">
                 Add Class
             </button>
         </form>
     </div>
-  
+
     <!-- Classes Title -->
     <p class="section-title">All Classes</p>
-  
+
     <!-- Classes Table -->
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th><span>#</span></th>
                 <th><span>Class Name</span></th>
-                <th><span>Professor</span></th>
-                <th><span>Subject</span></th>
                 <th><span>Students</span></th>
                 <th><span>Actions</span></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Mathematics 101</td>
-                <td>Dr. John Doe</td>
-                <td>Mathematics</td>
-                <td>Student 1, Student 2, Student 3</td>
+            <tr *ngFor="let class of classes">
+                <td>{{ class.id }}</td>
+                <td>{{ class.name }}</td>
                 <td>
-                    <!-- Update button -->
-                    <button class="action-btn">
-                        <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30">
-                    </button>
+                    <ul>
+                      <!-- Ensure that student is an object with a 'name' property -->
+                      <li *ngFor="let student of class.students">{{ student }}</li>
+                    </ul>
+                </td>
+                <td>
                     <!-- Delete button -->
-                    <button class="action-btn">
+                    <button class="action-btn" (click)="deleteClass(class.id)">
                         <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30">
                     </button>
                 </td>
             </tr>
-            <!-- Additional rows can be added here -->
         </tbody>
     </table>
 </div>

@@ -2,90 +2,70 @@
 
 <div class="classrooms-container">
     <!-- Profile and Notification Section -->
-<div class="top-right-section">
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <input type="text" placeholder="Search" class="search-input" />
+    <div class="top-right-section">
+        <div class="search-bar">
+            <input type="text" placeholder="Search" class="search-input" />
+        </div>
+
+        <div class="profile-section">
+            <div class="profile-pic">
+                <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
+            </div>
+            <div class="profile-info">
+                <p class="admin-name">Admin Name</p>
+                <p class="admin-email">admin@example.com</p>
+            </div>
+        </div>
+
+        <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
     </div>
 
-    <!-- Profile Section -->
-    <div class="profile-section">
-        <div class="profile-pic">
-            <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
-        </div>
-        <div class="profile-info">
-            <p class="admin-name">Admin Name</p>
-            <p class="admin-email">admin@example.com</p>
-        </div>
-    </div>
-
-    <!-- Notification Icon -->
-    <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
-</div>
     <h2>Manage Classrooms (Salle de Cours)</h2>
     <div class="title-underline"></div>
-  
-    <!-- Add/Update Classroom Title -->
+
     <p class="section-title">Add a Classroom</p>
-  
-    <!-- Add/Update Classroom Section -->
+
     <div class="add-classroom-section">
-        <form class="add-classroom-form">
+        <form class="add-classroom-form" (ngSubmit)="isEditing ? updateClassroom() : createClassroom()">
             <div class="form-group">
                 <label for="classroomName">Classroom Name</label>
-                <input type="text" id="classroomName" name="classroomName" placeholder="Enter classroom name" required>
+                <input type="text" id="classroomName" [(ngModel)]="isEditing ? editingClassroom.name : newClassroom.name" name="classroomName" placeholder="Enter classroom name" required>
             </div>
-            <div class="form-group">
-                <label for="classroomCapacity">Capacity</label>
-                <input type="number" id="classroomCapacity" name="classroomCapacity" placeholder="Enter capacity" required>
-            </div>
-            <div class="form-group">
-                <label for="classroomType">Type</label>
-                <select id="classroomType" name="classroomType" required>
-                    <option value="Lecture">Lecture</option>
-                    <option value="Lab">Lab</option>
-                    <option value="Seminar">Seminar</option>
-                </select>
-            </div>
-            <button class="add-classroom-btn" type="button">
+       
+            <button class="add-classroom-btn" type="submit">
                 <img src="assets/icons/Add.png" alt="Add Classroom" width="20" height="20">
-                Add Classroom
+                {{ isEditing ? 'Update Classroom' : 'Add Classroom' }}
             </button>
         </form>
     </div>
-  
-    <!-- Classrooms Title -->
+
     <p class="section-title">All Classrooms</p>
-  
-    <!-- Classrooms Table -->
+
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th><span>#</span></th>
                 <th><span>Classroom Name</span></th>
-                <th><span>Capacity</span></th>
-                <th><span>Type</span></th>
+           
                 <th><span>Actions</span></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Room 101</td>
-                <td>30</td>
-                <td>Lecture</td>
+            <tr *ngFor="let classroom of classrooms">
+                <td>{{ classroom.id }}</td>
+                <td>{{ classroom.name }}</td>
+         
                 <td>
-                    <!-- Update button -->
-                    <button class="action-btn">
+                    <!-- Edit button -->
+                    <button class="action-btn" (click)="editClassroom(classroom)">
                         <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30">
                     </button>
                     <!-- Delete button -->
-                    <button class="action-btn">
+                    <button class="action-btn" (click)="deleteClassroom(classroom.id)">
                         <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30">
                     </button>
                 </td>
             </tr>
-            <!-- Additional rows can be added here -->
         </tbody>
     </table>
 </div>

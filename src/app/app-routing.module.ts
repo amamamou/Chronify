@@ -15,13 +15,16 @@ import { AdminCourseComponent } from './admin/admin-course/admin-course.componen
 import { UserHomeComponent } from './user/user-home/user-home.component';
 import { TeacherHomeComponent } from './teacher/teacher-home/teacher-home.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { AdminScheduleComponent } from './admin/admin-schedule/admin-schedule.component';
 
 // Define routes
 const routes: Routes = [
   // Non-admin routes
   { path: '', component: HomeComponent }, // Route for the home component
   { path: 'login', component: LoginComponent }, // Route for the login component
-  
+  { path: 'schedule', component: ScheduleComponent }, // Route for the login component
+
   // User-related routes
   { path: 'user', component: UserHomeComponent }, // Admin students management
   { path: 'teacher', component: TeacherHomeComponent }, // Admin students management
@@ -34,6 +37,8 @@ const routes: Routes = [
   { path: 'admin/classrooms', component: AdminClassroomsComponent }, // Admin classrooms management
   { path: 'admin/classes', component: AdminClassComponent }, // Admin classes management
   { path: 'admin/courses', component: AdminCourseComponent }, // Admin courses management
+  { path: 'admin/schedule', component: AdminScheduleComponent }, // Admin courses management
+
 ];
 
 @NgModule({
