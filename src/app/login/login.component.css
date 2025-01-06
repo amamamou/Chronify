@@ -2,7 +2,7 @@
 body, html {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #f0f1f6;
+    background-color: #EBEFFF;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,12 +26,12 @@ body, html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #f0f1f6;
+    background-color: #fbfbfb;
   }
   
   .illustration {
     flex: 3;
-    background-color: #e0e0e0;
+    background-color: #8C8E8F;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,7 +76,7 @@ body, html {
   .login-btn {
     width: 100%;
     padding: 16px; /* Increase button size */
-    background-color: #365f9e;
+    background-color: #4e7bbf;
     color: white;
     border: none;
     border-radius: 8px; /* Increase border radius */
@@ -89,7 +89,7 @@ body, html {
   }
   
   .login-btn:hover {
-    background-color: #0056b3;
+    background-color: #365f9e;
   }
   
   .register-text {

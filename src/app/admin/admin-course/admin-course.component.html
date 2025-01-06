@@ -1,8 +1,9 @@
 <app-admin-sidebar></app-admin-sidebar>
 <div class="course-container">
   <div class="top-right-section">
-    <div class="search-bar">
-      <input type="text" placeholder="Search" class="search-input" />
+     <!-- Search Bar -->
+     <div class="search-bar">
+      <input type="text" placeholder="Search" class="search-input" [(ngModel)]="searchQuery" (keyup)="onSearch()" />
     </div>
     <div class="profile-section">
       <div class="profile-pic">
@@ -19,16 +20,16 @@
   <h2>Manage Courses (Matières)</h2>
   <div class="title-underline"></div>
 
-  <p class="section-title">Add a Course</p>
+  <p class="section-title">{{ courseToUpdate ? 'Update Course' : 'Add a Course' }}</p>
   <div class="add-course-section">
-    <form class="add-course-form" (ngSubmit)="addCourse()">
+    <form class="add-course-form">
       <div class="form-group">
         <label for="courseName">Course Name</label>
         <input type="text" id="courseName" name="courseName" [(ngModel)]="courseName" placeholder="Enter course name" required />
       </div>
-      <button class="add-course-btn" type="submit">
-        <img src="assets/icons/Add.png" alt="Add Course" width="20" height="20" />
-        Add Course
+      <button class="add-course-btn" type="button" (click)="courseToUpdate ? updateCourse() : addCourse()">
+        <img src="assets/icons/Add.png" alt="{{ courseToUpdate ? 'Update' : 'Add' }} Course" width="20" height="20" />
+        {{ courseToUpdate ? 'Update Course' : 'Add Course' }}
       </button>
     </form>
   </div>
@@ -47,6 +48,9 @@
         <td>{{ i + 1 }}</td>
         <td>{{ course.name }}</td>
         <td>
+          <button class="action-btn" (click)="openUpdateForm(course)">
+            <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30" />
+          </button>
           <button class="action-btn" (click)="deleteCourse(course.id)">
             <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30" />
           </button>

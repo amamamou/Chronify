@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ClassroomService } from 'src/app/services/classroom.service';
 
 @Component({
@@ -8,11 +9,32 @@ import { ClassroomService } from 'src/app/services/classroom.service';
 })
 export class AdminClassroomsComponent {
   classrooms: any[] = [];  // Array to hold classrooms
-  newClassroom: any = { name: '' };  // Model for creating a new classroom
+  newClassroom: any = { name: '', institutionId: '' };  // Model for creating a new classroom
   isEditing: boolean = false;  // Flag to track if we're editing a classroom
   editingClassroom: any = {};  // Holds the classroom being edited
+  searchQuery: string = '';
 
-  constructor(private classroomService: ClassroomService) {}
+  constructor(private classroomService: ClassroomService, private router: Router) {}
+
+  onSearch() {
+    const query = this.searchQuery.toLowerCase().trim();
+
+    if (query.includes('schedule') || query.includes('emploi')) {
+      this.router.navigate(['/admin/schedule']);
+    } else if (query.includes('student') || query.includes('students')) {
+      this.router.navigate(['/admin/student']);
+    } else if (query.includes('teacher') || query.includes('teachers')) {
+      this.router.navigate(['/admin/teachers']);
+    } else if (query.includes('emploi') || query.includes('classes')) {
+      this.router.navigate(['/admin/classes']);
+    } else if (query.includes('subject') || query.includes('courses')) {
+      this.router.navigate(['/admin/courses']);
+    } else if (query.includes('classrooms') || query.includes('salle') || query.includes('salles')) {
+      this.router.navigate(['/admin/classrooms']);
+    } else if (query.includes('home') || query.includes('admin')) {
+      this.router.navigate(['/admin/home']);
+    }
+  }
 
   ngOnInit(): void {
     this.fetchClassrooms();  // Fetch classrooms on initialization
@@ -34,13 +56,13 @@ export class AdminClassroomsComponent {
 
   // Create a new classroom
   createClassroom(): void {
-    if (this.newClassroom.name) {
+    if (this.newClassroom.name && this.newClassroom.institutionId) {
       console.log('Creating classroom:', this.newClassroom);
       this.classroomService.createClassroom(this.newClassroom).subscribe(
         (data) => {
           console.log('Classroom created:', data);
           this.fetchClassrooms();  // Re-fetch classrooms after creation
-          this.newClassroom = { name: ''};  // Reset form
+          this.newClassroom = { name: '', institutionId: '' };  // Reset form
         },
         (error) => {
           console.error('Error creating classroom:', error);
@@ -58,8 +80,9 @@ export class AdminClassroomsComponent {
     console.log('Editing classroom:', this.editingClassroom);
   }
 
+  // Update a classroom
   updateClassroom(): void {
-    if (this.editingClassroom.name) {
+    if (this.editingClassroom.name && this.editingClassroom.institutionId) {
       console.log('Updating classroom:', this.editingClassroom);
       this.classroomService.updateClassroom(this.editingClassroom.id, this.editingClassroom).subscribe(
         (data) => {
@@ -76,7 +99,6 @@ export class AdminClassroomsComponent {
       console.error('Form data is invalid');
     }
   }
-  
 
   // Delete a classroom
   deleteClassroom(id: number): void {

@@ -1,51 +1,52 @@
 <app-admin-sidebar></app-admin-sidebar>
-
-<div class="teachers-container">
-  <div class="top-right-section">
+<!-- Profile and Notification Section -->
+<div class="top-right-section">
+    <!-- Search Bar -->
     <div class="search-bar">
-      <input type="text" placeholder="Search" class="search-input" />
+      <input type="text" placeholder="Search" class="search-input" [(ngModel)]="searchQuery" (keyup)="onSearch()" />
     </div>
 
-    <div class="profile-section">
-      <div class="profile-pic">
-        <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
-      </div>
-      <div class="profile-info">
-        <p class="admin-name">Admin Name</p>
-        <p class="admin-email">admin@example.com</p>
-      </div>
+  <!-- Profile Section -->
+  <div class="profile-section">
+    <div class="profile-pic">
+      <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
     </div>
-
-    <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
+    <div class="profile-info">
+      <p class="admin-name">Admin Name</p>
+      <p class="admin-email">admin@example.com</p>
+    </div>
   </div>
 
+  <!-- Notification Icon -->
+  <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
+</div>
+
+<div class="teachers-container">
   <h2>Manage Teachers</h2>
   <div class="title-underline"></div>
 
+  <!-- Add/Update Teacher Title -->
   <p class="section-title">Add a Teacher</p>
 
+  <!-- Add/Update Teacher Section -->
   <div class="add-teacher-section">
-    <form  class="add-teacher-form"(submit)="addTeacher()">
+    <form class="add-teacher-form" (ngSubmit)="addTeacher()">
       <div class="form-group">
         <label for="teacherName">Teacher Name</label>
-        <input
-          type="text"
-          id="teacherName"
-          name="teacherName"
-          [(ngModel)]="newTeacherName"
-          placeholder="Enter teacher name"
-          required
-        />
+        <input type="text" id="teacherName" [(ngModel)]="teacherName" name="teacherName" placeholder="Enter teacher name" required>
       </div>
+
       <button class="add-teacher-btn" type="submit">
-        <img src="assets/icons/Add.png" alt="Add Teacher" width="20" height="20" />
+        <img src="assets/icons/Add.png" alt="Add Teacher" width="20" height="20">
         Add Teacher
       </button>
     </form>
   </div>
 
+  <!-- Teachers Title -->
   <p class="section-title">All Teachers</p>
 
+  <!-- Teachers Table -->
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -57,10 +58,15 @@
     <tbody>
       <tr *ngFor="let teacher of teachers">
         <td>{{ teacher.id }}</td>
-        <td>{{ teacher.name }}</td>
+        <td>{{ teacher.name || 'No name' }}</td>
         <td>
+          <!-- Update button -->
+          <button class="action-btn">
+            <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30">
+          </button>
+          <!-- Delete button -->
           <button class="action-btn" (click)="deleteTeacher(teacher.id)">
-            <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30" />
+            <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30">
           </button>
         </td>
       </tr>

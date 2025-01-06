@@ -2,8 +2,9 @@
 
 <div class="schedule-container">
   <div class="top-right-section">
+    <!-- Search Bar -->
     <div class="search-bar">
-      <input type="text" placeholder="Search" class="search-input" />
+      <input type="text" placeholder="Search" class="search-input" [(ngModel)]="searchQuery" (keyup)="onSearch()" />
     </div>
 
     <div class="profile-section">
@@ -19,11 +20,21 @@
     <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
   </div>
 
-  <h2>Schedule Timetable</h2>
-  <div class="title-underline"></div>
+  <!-- Header with Filters Applied and Date -->
+  <div class="schedule-header">
+    <h2>Schedule Timetable</h2>
+   <!-- <div class="title-underline"></div>-->
+    <p>Academic Year: 2025 | Printed on: {{ currentDate | date: 'MMMM dd, yyyy' }}</p>
+    <p>
+      <strong>Filters Applied:</strong>
+      <span *ngIf="selectedTeacher">Teacher: {{ selectedTeacher }}</span>
+      <span *ngIf="selectedDay"> | Day: {{ selectedDay }}</span>
+      <span *ngIf="selectedClass"> | Class: {{ selectedClass }}</span>
+    </p>
+  </div>
 
-  <!-- Filter Section -->
-  <div class="filters">
+  <!-- Filter Section (Hidden in Print) -->
+  <div class="filters" *ngIf="!isPrinting">
     <label for="dayFilter">Day:</label>
     <select id="dayFilter" [(ngModel)]="selectedDay">
       <option value="">All</option>
@@ -76,4 +87,9 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<!-- Footer for Print Only -->
+<div class="schedule-footer" *ngIf="isPrinting">
+  <p>&copy; 2025 Your Organization. All rights reserved.</p>
 </div>

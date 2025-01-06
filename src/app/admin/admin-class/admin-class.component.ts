@@ -1,92 +1,138 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ClassService } from 'src/app/services/class.service';
 import { StudentService } from 'src/app/services/student.service';
-
-interface Student {
-  id: number;
-  name: string;
-}
-
-interface Class {
-  id: number;
-  name: string;
-  level: string;
-  students: Student[];
-}
 
 @Component({
   selector: 'app-admin-class',
   templateUrl: './admin-class.component.html',
   styleUrls: ['./admin-class.component.css']
 })
-export class AdminClassComponent {
-  classes: Class[] = [];
-  students: Student[] = [];
-  newClass = { name: '', level: '', students: [] as Student[] };
+export class AdminClassComponent implements OnInit {
+  classes: any[] = [];
+  students: any[] = [];
+  newClass: { name: string; level: string; studentNames: string[] } = { name: '', level: '', studentNames: [] };
+  editingClass: any = null; // To store the class being edited
+  searchQuery: string = '';
 
-  constructor(private classService: ClassService, private studentService: StudentService) {}
+  constructor(
+    private classService: ClassService,
+    private studentService: StudentService,
+    private router: Router
+  ) {}
+  onSearch() {
+    const query = this.searchQuery.toLowerCase().trim();
+
+    if (query.includes('schedule') || query.includes('emploi')) {
+      this.router.navigate(['/admin/schedule']);
+    } else if (query.includes('student') || query.includes('students')) {
+      this.router.navigate(['/admin/student']);
+    } else if (query.includes('teacher') || query.includes('teachers')) {
+      this.router.navigate(['/admin/teachers']);
+    } else if (query.includes('emploi') || query.includes('classes')) {
+      this.router.navigate(['/admin/classes']);
+    } else if (query.includes('subject') || query.includes('courses')) {
+      this.router.navigate(['/admin/courses']);
+    } else if (query.includes('classrooms') || query.includes('salle') || query.includes('salles')) {
+      this.router.navigate(['/admin/classrooms']);
+    } else if (query.includes('home') || query.includes('admin')) {
+      this.router.navigate(['/admin/home']);
+    }
+  }
 
   ngOnInit(): void {
     this.getClasses();
-    this.getStudents(); // Fetch all students when the component initializes
+    this.getStudents();
   }
 
   getClasses(): void {
-    this.classService.getClasses().subscribe((data: Class[]) => {
-      this.classes = data;
-      console.log('Classes:', this.classes); // Check if classes have students
-
-      // Fetch students for each class
-      this.classes.forEach(classItem => {
-        this.getStudentsByClass(classItem.id); // Call to fetch students for each class
-      });
+    this.classService.getClasses().subscribe({
+      next: (data: any[]) => {
+        this.classes = data;
+        console.log('Classes:', this.classes);
+      },
+      error: (err) => {
+        console.error('Error fetching classes:', err);
+      }
     });
   }
 
   getStudents(): void {
-    this.studentService.getAllStudents().subscribe((data: Student[]) => {
-      this.students = data; // Store all students in the students array
-    });
-  }
-
-  getStudentsByClass(classId: number): void {
-    this.classService.getStudentsByClass(classId).subscribe((data: Student[]) => {
-      console.log('Fetched students for class:', data);
-      const classToUpdate = this.classes.find(c => c.id === classId);
-      if (classToUpdate) {
-        classToUpdate.students = data; // Update the students of the class
-        console.log('Updated class with students:', classToUpdate); // Log the updated class
+    this.studentService.getAllStudents().subscribe({
+      next: (data: any[]) => {
+        this.students = data;
+        console.log('Students:', this.students);
+      },
+      error: (err) => {
+        console.error('Error fetching students:', err);
       }
     });
   }
-
   addClass(): void {
-    // Check if the class name is empty
-    if (!this.newClass.name.trim()) {
-      alert('Please enter a class name.');
+    if (!this.newClass.name || !this.newClass.level || this.newClass.studentNames.length === 0) {
+      console.warn('All fields are required to add a class.');
       return;
     }
 
-    // Check if any selected students are already assigned to another class
-    const selectedStudents = this.newClass.students;
-    for (let student of selectedStudents) {
-      for (let classItem of this.classes) {
-        if (classItem.students.some((s: Student) => s.id === student.id)) {
-          alert(`Student with the id ${student} is already assigned to another class.`);
-          return;
-        }
-      }
-    }
+    if (this.editingClass) {
+      // Update existing class
+      this.classService.updateClass(this.editingClass.id, this.newClass).subscribe({
+        next: (updatedClass) => {
+          // Update the class in the list
+          const index = this.classes.findIndex(c => c.id === updatedClass.id);
+          if (index !== -1) {
+            this.classes[index] = updatedClass;
+          }
 
-    this.classService.addClass(this.newClass).subscribe(() => {
-      this.getClasses(); // Refresh class list after adding a new class
-      this.newClass = { name: '', level: '', students: [] }; // Reset the newClass object
-    });
+          // Reset the form and stop editing
+          this.resetForm();
+          console.log('Class updated successfully:', updatedClass);
+        },
+        error: (err) => {
+          console.error('Error updating class:', err);
+        }
+      });
+    } else {
+      // Add new class
+      this.classService.addClass(this.newClass).subscribe({
+        next: (createdClass) => {
+          this.classes.push(createdClass);
+          this.resetForm();
+          console.log('Class added successfully:', createdClass);
+        },
+        error: (err) => {
+          console.error('Error adding class:', err);
+        }
+      });
+    }
+  }
+
+  resetForm(): void {
+    this.newClass = { name: '', level: '', studentNames: [] };
+    this.editingClass = null; // Clear editing state
   }
 
   deleteClass(classId: number): void {
-    this.classService.deleteClass(classId).subscribe(() => {
-      this.getClasses(); // Refresh class list after deleting
+    this.classService.deleteClass(classId).subscribe({
+      next: () => {
+        this.classes = this.classes.filter(c => c.id !== classId);
+        console.log('Class deleted successfully:', classId);
+      },
+      error: (err) => {
+        console.error('Error deleting class:', err);
+      }
     });
+  }
+
+  editClass(classId: number): void {
+    const classToEdit = this.classes.find(c => c.id === classId);
+    if (classToEdit) {
+      this.editingClass = classToEdit;
+      this.newClass = { 
+        name: classToEdit.name,
+        level: classToEdit.level,
+        studentNames: classToEdit.students.map((student: any) => student.username)
+      };
+    }
   }
 }

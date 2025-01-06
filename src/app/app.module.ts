@@ -19,6 +19,10 @@ import { TeacherHomeComponent } from './teacher/teacher-home/teacher-home.compon
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { AdminScheduleComponent } from './admin/admin-schedule/admin-schedule.component';
+import { RegisterComponent } from './register/register.component';
+import { CheckemailComponent } from './checkemail/checkemail.component';
+import { AdminReclamationComponent } from './admin/admin-reclamation/admin-reclamation.component';
+import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,11 @@ import { AdminScheduleComponent } from './admin/admin-schedule/admin-schedule.co
     TeacherHomeComponent,
     AdminHomeComponent,
     ScheduleComponent,
-    AdminScheduleComponent
+    AdminScheduleComponent,
+    RegisterComponent,
+    CheckemailComponent,
+    AdminReclamationComponent,
+    AdminUsersComponent,
   ],
   imports: [
     BrowserModule,

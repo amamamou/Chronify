@@ -17,27 +17,35 @@ import { TeacherHomeComponent } from './teacher/teacher-home/teacher-home.compon
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { AdminScheduleComponent } from './admin/admin-schedule/admin-schedule.component';
+import { RegisterComponent } from './register/register.component';
+import { CheckemailComponent } from './checkemail/checkemail.component';
+import { AdminReclamationComponent } from './admin/admin-reclamation/admin-reclamation.component';
+import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 
 // Define routes
 const routes: Routes = [
   // Non-admin routes
   { path: '', component: HomeComponent }, // Route for the home component
   { path: 'login', component: LoginComponent }, // Route for the login component
-  { path: 'schedule', component: ScheduleComponent }, // Route for the login component
+  { path: 'schedule', component: ScheduleComponent }, // Route for the schedule component
+  { path: 'register', component: RegisterComponent }, // Route for the register component
+  { path: 'checkemail', component: CheckemailComponent }, // Check email
 
   // User-related routes
-  { path: 'user', component: UserHomeComponent }, // Admin students management
-  { path: 'teacher', component: TeacherHomeComponent }, // Admin students management
+  { path: 'user', component: UserHomeComponent }, // User profile 
+  { path: 'teacher', component: TeacherHomeComponent }, // Teacher profile
 
   // Admin-related routes
   { path: 'admin/home', component: AdminHomeComponent }, // Admin students management
+  { path: 'admin/users', component: AdminUsersComponent }, // Admin users management
   { path: 'admin/students', component: AdminStudentsComponent }, // Admin students management
   { path: 'admin/teachers', component: AdminTeachersComponent }, // Admin teachers management
   { path: 'admin/establishments', component: AdminEstablishmentsComponent }, // Admin establishments management
   { path: 'admin/classrooms', component: AdminClassroomsComponent }, // Admin classrooms management
   { path: 'admin/classes', component: AdminClassComponent }, // Admin classes management
   { path: 'admin/courses', component: AdminCourseComponent }, // Admin courses management
-  { path: 'admin/schedule', component: AdminScheduleComponent }, // Admin courses management
+  { path: 'admin/schedule', component: AdminScheduleComponent }, // Admin schedule management
+  { path: 'admin/reclamations', component: AdminReclamationComponent }, // Admin complaints management
 
 ];
 

@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private loginUrl = 'http://localhost:3000/users/login'; // Correct URL for the login endpoint
+  private loginUrl = 'http://localhost:3000/auth/login' // Correct URL for the login endpoint
 
   constructor(private http: HttpClient) {}
 
@@ -23,4 +23,6 @@ export class AuthService {
     // Log or handle the error appropriately
     return throwError(error);
   }
+
+
 }

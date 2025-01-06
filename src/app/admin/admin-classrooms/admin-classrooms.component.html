@@ -3,9 +3,10 @@
 <div class="classrooms-container">
     <!-- Profile and Notification Section -->
     <div class="top-right-section">
-        <div class="search-bar">
-            <input type="text" placeholder="Search" class="search-input" />
-        </div>
+          <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" placeholder="Search" class="search-input" [(ngModel)]="searchQuery" (keyup)="onSearch()" />
+      </div>
 
         <div class="profile-section">
             <div class="profile-pic">
@@ -31,6 +32,12 @@
                 <label for="classroomName">Classroom Name</label>
                 <input type="text" id="classroomName" [(ngModel)]="isEditing ? editingClassroom.name : newClassroom.name" name="classroomName" placeholder="Enter classroom name" required>
             </div>
+
+            <!-- Add Institution ID Field -->
+            <div class="form-group">
+                <label for="institutionId">Institution ID</label>
+                <input type="text" id="institutionId" [(ngModel)]="isEditing ? editingClassroom.institutionId : newClassroom.institutionId" name="institutionId" placeholder="Enter institution ID" required>
+            </div>
        
             <button class="add-classroom-btn" type="submit">
                 <img src="assets/icons/Add.png" alt="Add Classroom" width="20" height="20">
@@ -46,7 +53,7 @@
             <tr>
                 <th><span>#</span></th>
                 <th><span>Classroom Name</span></th>
-           
+                <th><span>Institution ID</span></th> <!-- Added Institution ID Column -->
                 <th><span>Actions</span></th>
             </tr>
         </thead>
@@ -54,12 +61,12 @@
             <tr *ngFor="let classroom of classrooms">
                 <td>{{ classroom.id }}</td>
                 <td>{{ classroom.name }}</td>
-         
+                <td>{{ classroom.institution?.name }}</td> <!-- Accessing institution name -->
                 <td>
-                    <!-- Edit button -->
+                    <!-- Edit button 
                     <button class="action-btn" (click)="editClassroom(classroom)">
                         <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30">
-                    </button>
+                    </button>-->
                     <!-- Delete button -->
                     <button class="action-btn" (click)="deleteClassroom(classroom.id)">
                         <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30">

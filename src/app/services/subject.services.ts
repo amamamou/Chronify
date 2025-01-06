@@ -10,15 +10,28 @@ export class SubjectService {
 
   constructor(private http: HttpClient) {}
 
-  getAllCourses(): Observable<any[]> {
+  // Get all subjects
+  getAllSubjects(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  createCourse(course: { name: string}): Observable<any> {
-    return this.http.post<any>(this.apiUrl, course);
+  // Get a specific subject by ID
+  getSubjectById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  deleteCourse(id: number): Observable<any> {
+  // Create a new subject
+  createSubject(subject: { name: string }): Observable<any> {
+    return this.http.post<any>(this.apiUrl, subject);
+  }
+
+
+ // Method to update a subject (course)
+ updateSubject(id: number, course: { name: string }): Observable<any> {
+  return this.http.put<any>(`${this.apiUrl}/${id}`, course); // Ensure the second parameter is the correct object
+}
+  // Delete a subject by ID
+  deleteSubject(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }

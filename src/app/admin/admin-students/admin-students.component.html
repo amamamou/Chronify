@@ -1,11 +1,10 @@
 <app-admin-sidebar></app-admin-sidebar>
 <!-- Profile and Notification Section -->
 <div class="top-right-section">
-    <!-- Search Bar -->
+         <!-- Search Bar -->
     <div class="search-bar">
-        <input type="text" placeholder="Search" class="search-input" />
-    </div>
-
+        <input type="text" placeholder="Search" class="search-input" [(ngModel)]="searchQuery" (keyup)="onSearch()" />
+      </div>
     <!-- Profile Section -->
     <div class="profile-section">
         <div class="profile-pic">
@@ -25,10 +24,10 @@
     <h2>Manage Students</h2>
     <div class="title-underline"></div>
   
-    <!-- Add/Update Student Title -->
+    <!-- Add/Update Student Title 
     <p class="section-title">Add a Student</p>
   
-    <!-- Add/Update Student Section -->
+    Add/Update Student Section
     <div class="add-student-section">
         <form class="add-student-form" (ngSubmit)="addStudent()">
             <div class="form-group">
@@ -36,7 +35,7 @@
                 <input type="text" id="studentName" [(ngModel)]="studentName" name="studentName" placeholder="Enter student name" required>
             </div>
 
-            <!-- Select Class Dropdown -->
+            Select Class Dropdown 
             <div class="form-group">
                 <label for="classSelect">Select Class</label>
                 <select id="classSelect" [(ngModel)]="selectedClassId" name="classSelect" required>
@@ -50,6 +49,7 @@
             </button>
         </form>
     </div>
+-->
   
     <!-- Students Title -->
     <p class="section-title">All Students</p>
@@ -58,27 +58,28 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th><span>#</span></th>
+                <!--<th><span>#</span></th>-->
                 <th><span>Student Name</span></th>
                 <th><span>Class</span></th>
-                <th><span>Actions</span></th>
+              <!-- <th><span>Actions</span></th>--> 
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let student of students">
-                <td>{{ student.id }}</td>
-                <td>{{ student.name }}</td>
-                <td>{{ student.class?.name || 'No class' }}</td>
-                <td>
-                    <!-- Update button -->
+                <!--<td>{{ student.id }}</td>-->
+                <td>{{ student.name || 'No name' }}</td> <!-- Display student name -->
+                <td>{{ student.class ? student.class.name : 'No class' }}</td> <!-- Display class name -->
+                <!-- <td>
+                    Update button
                     <button class="action-btn">
                         <img src="assets/icons/Button_Edit.png" alt="Update" width="80" height="30">
                     </button>
-                    <!-- Delete button -->
+                     Delete button 
                     <button class="action-btn" (click)="deleteStudent(student.id)">
                         <img src="assets/icons/Button_Del.png" alt="Delete" width="80" height="30">
                     </button>
                 </td>
+            -->
             </tr>
         </tbody>
     </table>

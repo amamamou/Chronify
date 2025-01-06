@@ -24,7 +24,12 @@
                 <p>Home</p>
             </a>
         </div>
-
+        <div class="menu-item">
+            <a [routerLink]="['/admin/users']">
+                <img src="assets/icons/People.png" alt="Students Icon" />
+                <p>Users</p>
+            </a>
+        </div>
         <div class="menu-item">
             <a [routerLink]="['/admin/students']">
                 <img src="assets/icons/Graduate.png" alt="Students Icon" />
@@ -71,7 +76,12 @@
                 <p>Timetables</p>
             </a>
         </div>
-
+        <div class="menu-item">
+            <a [routerLink]="['/admin/reclamations']">
+                <img src="assets/icons/Complaint.png" alt="Subjects Icon" />
+                <p>Complaints</p>
+            </a>
+        </div>
         <div class="menu-item logout">
             <a [routerLink]="['/logout']">
                 <i class="fa-solid fa-sign-out-alt" style="color: #E74040; font-size: 18px;"></i>

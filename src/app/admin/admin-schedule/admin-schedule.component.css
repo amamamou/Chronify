@@ -3,7 +3,7 @@
     margin-left: 250px;
     padding: 30px;
     margin-top: 20px;
-    border-radius: 10px; /* Rounded corners */
+    border-radius: 10px;
 }
 
 h2 {
@@ -172,20 +172,22 @@ td:nth-child(3), td:nth-child(4), td:nth-child(5), td:nth-child(6), td:nth-child
     width: 20px;
     height: 20px;
 }
+
 .title-underline {
     width: 50px;
     height: 3px;
-    background-color: #365f9e; /* Matches sidebar color */
+    background-color: #365f9e;
     margin: 5px 0 50px 0;
     border-radius: 5px;
 }
+
 .print-btn-container {
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: right;
-  }
-  
-  .print-btn {
+}
+
+.print-btn {
     padding: 10px 20px;
     background-color: #4e7bbf;
     color: white;
@@ -193,9 +195,87 @@ td:nth-child(3), td:nth-child(4), td:nth-child(5), td:nth-child(6), td:nth-child
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.print-btn:hover {
+    background-color: #365f9e;
+}
+/* General Styling */
+.schedule-container {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
   }
   
-  .print-btn:hover {
-    background-color: #365f9e;
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table th, table td {
+    border: 2px solid #000;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .schedule-header {
+    margin-bottom: 20px;
+  }
+  
+  .title-underline {
+    border-bottom: 2px solid #000;
+    margin-bottom: 10px;
+  }
+  
+  .filters {
+    margin-bottom: 20px;
+  }
+  
+  .print-btn-container {
+    margin-bottom: 20px;
+  }
+  
+  /* Print-specific Styles */
+  @media print {
+    /* Hide filter bar and normal footer when printing */
+    .filters {
+      display: none;
+    }
+  
+    .schedule-footer {
+      display: block;
+      margin-top: 20px;
+    }
+  
+    /* Center content and adjust table layout for print */
+    .schedule-container {
+      text-align: center;
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+  
+    table th, table td {
+      border: 2px solid #000;
+      padding: 10px;
+      font-size: 12px;
+    }
+  
+    .print-btn-container {
+      display: none;
+    }
+  
+    /* Hide other UI elements not needed for printing */
+    .top-right-section, .profile-section, .notif-image {
+      display: none;
+    }
+  
+    /* Remove header text in print */
+    .schedule-header p {
+      display: none;
+    }
   }
   

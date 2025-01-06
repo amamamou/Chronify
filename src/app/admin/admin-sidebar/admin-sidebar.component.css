@@ -2,7 +2,7 @@
 .menu {
     background: #4e7bbf; /* Sidebar background color */
     width: 200px; /* Set a fixed width for the sidebar */
-    height: 95%; /* Full height */
+    height: 98.5%; /* Full height */
     top: 50%; /* Vertically center the sidebar */
     margin-left: 120px; /* Horizontally center the sidebar */
     transform: translate(-50%, -50%); /* Adjust to truly center the sidebar */
@@ -15,7 +15,7 @@
 }
 
 .menu-items {
-    margin-top: 10px;
+    margin-top: 0px;
     font-family: 'Poppins', sans-serif; /* Apply Poppins font */
     list-style: none; /* Remove list styling */
     padding: 0; /* Remove padding */
@@ -27,7 +27,7 @@
     align-items: center; /* Center vertically */
     text-decoration: none; /* Remove underline */
     color: inherit; /* Inherit color from parent */
-    padding: 5px ; /* Add padding for consistent spacing */
+    padding: 2px ; /* Add padding for consistent spacing */
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover */
 }
 
@@ -37,8 +37,8 @@
 }
 
 .menu-item img {
-    width: 24px; /* Set a consistent width for all icons */
-    height: 24px; /* Set a consistent height for all icons */
+    width: 20px; /* Set a consistent width for all icons */
+    height: 20px; /* Set a consistent height for all icons */
     object-fit: contain; /* Ensure the icons maintain their aspect ratio */
 }
 
@@ -52,7 +52,7 @@
 }
 
 .logo {
-    margin-top: 10px; /* Adjust this value to move the logo down */
+    margin-top: 6px; /* Adjust this value to move the logo down */
     text-align: center; /* Optional: centers the logo horizontally */
 }
 
@@ -60,7 +60,7 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 24px;
     font-weight: 700;
-    line-height: 32px;
+    line-height: 15px;
     letter-spacing: 0.1px;
     text-align: left;
     color: white; /* Adjust this if you want a different color */
@@ -70,5 +70,5 @@
 }
 
 .logo img {
-    height: 50px;
+    height: 30px;
 }
