@@ -21,4 +21,5 @@ export class TeacherService {
   deleteTeacher(teacherId: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/${teacherId}`);
   }
+ 
 }

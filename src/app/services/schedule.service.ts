@@ -10,7 +10,18 @@ export class ScheduleService {
 
   constructor(private http: HttpClient) {}
 
+  // Add schedule method
+  addSchedule(newSchedule: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, newSchedule);
+  }
+
+  // Other methods like fetching schedules
   getSchedules(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
+  }
+
+  // Fetch schedules by classId
+  getSchedulesByClassId(classId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/schedules/${classId}`);
   }
 }

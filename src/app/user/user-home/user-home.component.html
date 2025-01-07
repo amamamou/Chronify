@@ -7,9 +7,11 @@
       <div class="navbar-right">
         <div class="welcome-section">
           <div class="welcome-content">
-            <p>Welcome, <strong>User</strong></p>
-            <img src="assets/student1.jpg" alt="Profile Picture" class="profile-img">
-          </div>
+            <p>Welcome, <strong>{{ userDetails.username }}</strong></p> <!-- Display the actual username -->
+            <div class="profile-pic">
+              <img src="assets/student1.png" alt="Profile Picture" class="profile-img" (click)="logout()">
+            </div>
+                      </div>
         </div>
       </div>
     </nav>
@@ -48,27 +50,35 @@
               alt="{{ studentProfile.name }}"
               style="border-radius: 50%; width: 80px; height: 80px;"
             />
-            <h2 class="details-title">{{ studentProfile.name }}</h2>
-            <p class="details-subtitle">Grade: {{ studentProfile.grade }}</p>
+            <h2 class="details-title">Hello</h2>
+            <p class="details-subtitle">Username: {{ userDetails.username }}</p>
           </div>
           <div class="details-content">
             <div class="details-section">
-              <h3>Institution</h3>
-              <p>{{ studentProfile.institution }}</p>
+              <h3>User ID</h3>
+              <p>{{ userDetails.id }}</p>
             </div>
             <div class="details-section">
-              <h3>Enrolled Classes</h3>
-              <p>{{ studentProfile.classes.join(', ') }}</p>
+              <h3>Role</h3>
+              <p>{{ userDetails.role }}</p>
+            </div>
+            <div class="details-section">
+              <h3>Email</h3>
+              <p>{{ userDetails.email }}</p>
+            </div>
+            <div class="details-section">
+              <h3>CIN</h3>
+              <p>{{ userDetails.cin }}</p>
             </div>
             <div class="details-section">
               <h3>Contact</h3>
-              <p>Email: {{ studentProfile.email }}</p>
-              <p *ngIf="studentProfile.phone">Phone: {{ studentProfile.phone }}</p>
+              <p>Email: {{ userDetails.email }}</p>
+              <p *ngIf="studentProfile.phone">Phone: +2185656565</p>
             </div>
           </div>
         </div>
       </div>
-      
+
 <!-- Full-page Overlay Form for Manage Profile -->
 <div *ngIf="isProfileFormVisible" class="profile-overlay">
     <div class="profile-form-container">
@@ -102,66 +112,52 @@
       <!-- Print Button -->
       <button class="print-button" (click)="printSchedule()">Print</button>
   
-      <table class="schedule-table">
-        <thead>
-          <tr>
-            <th>Time / Day</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>8:00 AM - 9:00 AM</td>
-            <td>Math - Room 101</td>
-            <td>Physics - Room 103</td>
-            <td>History - Room 105</td>
-            <td>Chemistry - Room 107</td>
-            <td>Biology - Room 109</td>
-            <td>Geography - Room 111</td>
-          </tr>
-          <tr>
-            <td>9:00 AM - 10:00 AM</td>
-            <td>English - Room 102</td>
-            <td>Literature - Room 104</td>
-            <td>Math - Room 106</td>
-            <td>Physics - Room 108</td>
-            <td>History - Room 110</td>
-            <td>Music - Room 113</td>
-          </tr>
-          <tr>
-            <td>10:00 AM - 11:00 AM</td>
-            <td>Biology - Room 101</td>
-            <td>Math - Room 103</td>
-            <td>Literature - Room 105</td>
-            <td>English - Room 107</td>
-            <td>Physics - Room 109</td>
-            <td>History - Room 111</td>
-          </tr>
-          <tr>
-            <td>11:00 AM - 12:00 PM</td>
-            <td>History - Room 102</td>
-            <td>English - Room 104</td>
-            <td>Physics - Room 106</td>
-            <td>Math - Room 108</td>
-            <td>Chemistry - Room 110</td>
-            <td>Biology - Room 113</td>
-          </tr>
-          <tr>
-            <td>12:00 PM - 1:00 PM</td>
-            <td>Lunch Break</td>
-            <td>Lunch Break</td>
-            <td>Lunch Break</td>
-            <td>Lunch Break</td>
-            <td>Lunch Break</td>
-            <td>Lunch Break</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="schedule-section">
+        <h2>My Schedule</h2>
+      
+        <div *ngIf="schedule.length === 0">
+          <p>No schedule available for your class.</p>
+        </div>
+      
+        <!-- Table Section -->
+<section *ngIf="schedule.length > 0">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Day</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Duration</th>
+        <th>Teacher</th>
+        <th>Subject</th>
+        <th>Classroom</th>
+        <th>Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let scheduleItem of schedule">
+        <td>{{ scheduleItem.id }}</td>
+        <td>{{ scheduleItem.day }}</td>
+        <td>{{ scheduleItem.startTime }}</td>
+        <td>{{ scheduleItem.endTime }}</td>
+        <td>{{ scheduleItem.duree }}</td>
+        <td>{{ scheduleItem.teacher?.name || 'N/A' }}</td>
+        <td>{{ scheduleItem.subject?.name || 'N/A' }}</td>
+        <td>{{ scheduleItem.classroom?.name || 'N/A' }}</td>
+
+        <td>{{ scheduleItem.class?.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- No schedules available message -->
+<section *ngIf="schedule.length === 0">
+  <p>No schedules available for your class.</p>
+</section>
+
+      </div>
     </section>
   </div>
   
@@ -192,32 +188,56 @@
       </ul>
     </div>
   </div>
-<!-- Full-page Overlay Form for Support Center Contact -->
+<!-- Support Section -->
 <div *ngIf="isSupportVisible" class="overlay">
-    <div class="support-container">
-      <h3 class="support-title">Contact Support Center</h3>
-      <p class="support-description">Our team is here to assist you. Please fill out the form below.</p>
-      <form class="support-form">
-        <label for="name">Full Name:</label>
-        <input type="text" id="name" name="name" placeholder="Enter your full name" required class="input-field">
-  
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required class="input-field">
-  
-        <label for="subject">Subject:</label>
-        <input type="text" id="subject" name="subject" placeholder="Enter the subject of your request" required class="input-field">
-  
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" placeholder="Describe your issue or request" required class="textarea-field"></textarea>
-  
-        <div class="button-container">
-          <button type="submit" class="submit-button">Submit Request</button>
-          <button type="button" class="cancel-button" (click)="toggleSupport()">Cancel</button>
-        </div>
-      </form>
-    </div>
+  <div class="support-container">
+    <h3 class="support-title">Contact Support Center</h3>
+    <form class="support-form" (ngSubmit)="submitReclamation()">
+      <label for="name">Full Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Enter your full name"
+        required
+        class="input-field"
+        [(ngModel)]="reclamationData.name"
+        #name="ngModel"
+      />
+      <div *ngIf="name.invalid && name.touched" class="error-message">Name is required.</div>
+
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [readonly]="true"
+        [(ngModel)]="reclamationData.email"
+        class="input-field"
+      />
+
+      <label for="message">Message:</label>
+      <textarea
+        id="message"
+        name="message"
+        placeholder="Describe your issue"
+        required
+        class="textarea-field"
+        [(ngModel)]="reclamationData.message"
+        #message="ngModel"
+      ></textarea>
+      <div *ngIf="message.invalid && message.touched" class="error-message">Message is required.</div>
+
+      <div class="button-container">
+        <button type="submit" class="submit-button" [disabled]="!name.valid || !message.valid">
+          Submit
+        </button>
+        <button type="button" class="cancel-button" (click)="toggleSupport()">Cancel</button>
+      </div>
+    </form>
   </div>
-  
+</div>
+
   
     <!-- Events Section -->
     <section id="events" class="events">

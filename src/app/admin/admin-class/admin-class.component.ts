@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { ClassService } from 'src/app/services/class.service';
 import { StudentService } from 'src/app/services/student.service';
+interface UserDetails {
+  username: string;
+  email: string;
+  cin: string;
+  id: string;
+  role: string;
+  classId: string; // Assuming classId is part of user details
 
+}
 @Component({
   selector: 'app-admin-class',
   templateUrl: './admin-class.component.html',
@@ -14,11 +23,13 @@ export class AdminClassComponent implements OnInit {
   newClass: { name: string; level: string; studentNames: string[] } = { name: '', level: '', studentNames: [] };
   editingClass: any = null; // To store the class being edited
   searchQuery: string = '';
+  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
 
   constructor(
     private classService: ClassService,
     private studentService: StudentService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
   onSearch() {
     const query = this.searchQuery.toLowerCase().trim();
@@ -41,10 +52,16 @@ export class AdminClassComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const fetchedDetails = this.authService.getUserDetails();
+    if (fetchedDetails) {
+      this.userDetails = fetchedDetails;
+      console.log('Logged in user details:', this.userDetails);
+      
+   
     this.getClasses();
     this.getStudents();
   }
-
+  }
   getClasses(): void {
     this.classService.getClasses().subscribe({
       next: (data: any[]) => {

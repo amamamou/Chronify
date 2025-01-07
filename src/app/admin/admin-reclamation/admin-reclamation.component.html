@@ -1,61 +1,45 @@
 <app-admin-sidebar></app-admin-sidebar>
 
 <div class="complaints-container">
-  <!-- Top Section with Search Bar, Profile, and Notifications -->
-  <div class="top-right-section">
-    <!-- Search Bar -->
-    <div class="search-bar">
-      <input
-        type="text"
-        placeholder="Search"
-        class="search-input"
-        [(ngModel)]="searchQuery"
-        (keyup)="onSearch()"
-      />
+    <!-- Profile and Notification Section -->
+    <div class="top-right-section">
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" placeholder="Search" class="search-input" [(ngModel)]="searchQuery" (keyup)="onSearch()" />
+        </div>
+
+        <div class="profile-section">
+            <div class="profile-pic">
+                <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
+            </div>
+            <div class="profile-info">
+                <p class="admin-name">{{ userDetails.username }}</p>
+                <p class="admin-email">{{ userDetails.role }}</p>
+            </div>
+            </div>
+        
+
+        <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
     </div>
 
-    <!-- Profile Section -->
-    <div class="profile-section">
-      <div class="profile-pic">
-        <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
-      </div>
-      <div class="profile-info">
-        <p class="admin-name">Admin Name</p>
-        <p class="admin-email">admin@example.com</p>
-      </div>
+    <h2>Manage Complaints</h2>
+    <div class="title-underline"></div>
+
+    <p class="section-title">All Reclamations</p>
+
+    <div class="reclamation-list">
+        <ul>
+            <li *ngFor="let reclamation of reclamations">
+                <div class="reclamation-item">
+                    <div class="icon-container">
+                        <img src="assets/compl/Error.png" alt="Complaint Icon">
+                    </div>
+                    <div class="reclamation-text">
+                        <strong>{{ reclamation.name }}</strong> ({{ reclamation.email }}) - {{ reclamation.message }}
+                        <p><small>Submitted on: {{ reclamation.createdAt }}</small></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
-
-    <!-- Notification Icon -->
-    <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
-  </div>
-
-  <!-- Page Title -->
-  <h2>Manage Complaints</h2>
-  <div class="title-underline"></div>
-
-  <!-- Complaints Table -->
-  <div class="complaints-table">
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>User Name</th>
-          <th>Email</th>
-          <th>Complaint</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let complaint of complaints">
-          <td>{{ complaint.id }}</td>
-          <td>{{ complaint.userName }}</td>
-          <td>{{ complaint.email }}</td>
-          <td>{{ complaint.description }}</td>
-          <td>
-            <span [class]="complaint.status | lowercase">{{ complaint.status }}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 </div>

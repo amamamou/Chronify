@@ -1,10 +1,25 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { ReclamationService } from 'src/app/services/reclamation.service';
+import { ScheduleService } from 'src/app/services/schedule.service';
 
 interface Message {
   sender: string;
   subject: string;
   content: string;
 }
+// Define an interface for user details
+interface UserDetails {
+  username: string;
+  email: string;
+  cin: string;
+  id: string;
+  role: string;
+  classId: string; // Assuming classId is part of user details
+
+  
+}
+
 export interface StudentProfile {
   id: number;
   name: string;
@@ -23,7 +38,11 @@ export interface StudentProfile {
 })
 export class UserHomeComponent {
   selectedMessage: Message | null = null;
-
+  reclamationData = {
+    name: '',
+    email: '',
+    message: '',
+  };
   events = [
     { image: 'assets/events/1.jpg' },
     { image: 'assets/events/2.jpg' },
@@ -56,15 +75,16 @@ export class UserHomeComponent {
       description: "Access your account information and personal details.",
       icon: "assets/user/1.png"
     },
-    {
-      title: "Manage Profile",
-      description: "Update personal information, change your password, or upload a profile picture.",
-      icon: "assets/user/3.png"
-    },
+   
     {
       title: "My Schedule",
       description: "Access your timetable, upcoming events, and deadlines.",
       icon: "assets/user/2.png"
+    },
+    {
+      title: "Manage Profile",
+      description: "Update personal information, change your password, or upload a profile picture.",
+      icon: "assets/user/3.png"
     },
     {
       title: "Notifications",
@@ -102,7 +122,7 @@ export class UserHomeComponent {
     classes: ['Mathematics', 'English Literature', 'Biology'],
     email: 'janesmith@student.eliteacademy.com',
     phone: '+1 987 654 321',
-    photoUrl: 'assets/student1.jpg',
+    photoUrl: 'assets/student1.png',
   };
   messages: Message[] = [
     { sender: 'John Doe', subject: 'Meeting Reminder', content: 'Don\'t forget about the meeting tomorrow at 10 AM.' },
@@ -117,12 +137,8 @@ export class UserHomeComponent {
     { title: 'Event Reminder', description: 'Your upcoming event is starting soon.' }
   ];
 
-  schedule = [
-    { day: 'Monday', time: '9:00 AM - 10:00 AM', subject: 'Math 101' },
-    { day: 'Monday', time: '10:00 AM - 12:00 PM', subject: 'Physics 101' },
-    { day: 'Tuesday', time: '9:00 AM - 11:00 AM', subject: 'Chemistry 101' },
-    { day: 'Wednesday', time: '1:00 PM - 3:00 PM', subject: 'History 101' }
-  ];
+  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
+  // Object to hold user details
 
   printSchedule(): void {
     // Temporarily hide elements that should not be printed (e.g., buttons, headers)
@@ -135,7 +151,8 @@ export class UserHomeComponent {
     // After printing, restore the hidden elements
     elementsToHide.forEach(element => element.removeAttribute('style'));
   }
-  
+  schedule: any[] = [];  // To hold the filtered schedule
+
 
   dots = [0, 1, 2]; // 4 dots for navigation
   activeEventIndex = 0;
@@ -175,7 +192,9 @@ export class UserHomeComponent {
     if (activeOverlay !== 'messages') this.isMessagesVisible = false;
     if (activeOverlay !== 'support') this.isSupportVisible = false;
   }
-
+  logout() {
+    this.authService.logout(); // Call the logout method from AuthService
+  }
   scrollToEventGroup(index: number): void {
     this.activeEventIndex = index;
     const container = document.getElementById('events-container');
@@ -214,4 +233,53 @@ export class UserHomeComponent {
       }
     }
   }
+ 
+  constructor(private authService: AuthService,private reclamationService: ReclamationService,  private scheduleService: ScheduleService  // Inject ScheduleService
+  ) {}
+
+  ngOnInit(): void {
+    // Fetch user details from AuthService
+    const fetchedDetails = this.authService.getUserDetails();
+    if (fetchedDetails) {
+      this.userDetails = fetchedDetails;
+      console.log('Logged in user details:', this.userDetails);
+      
+      // Fetch the schedule based on the classId
+      this.getScheduleByClassId(this.userDetails.classId);
+    } else {
+      console.error('No user details found. Please log in.');
+    }
+  }
+
+  // Fetch the full schedule filtered by classId
+  getScheduleByClassId(classId: string): void {
+    this.scheduleService.getSchedulesByClassId(classId).subscribe(
+      (data) => {
+        this.schedule = data;  // Store the full schedule
+        console.log('Fetched schedule:', this.schedule);
+      },
+      (error) => {
+        console.error('Error fetching schedule:', error);
+      }
+    );
+  }
+  submitReclamation() {
+    this.reclamationService.createReclamation(this.reclamationData).subscribe(
+      (response) => {
+        alert('Reclamation submitted successfully!');
+        this.toggleSupport();
+  
+        // Reset form but retain the user's email
+        this.reclamationData = { 
+          name: '', 
+          email: this.userDetails.email, 
+          message: '' 
+        };
+      },
+      (error) => {
+        alert('Failed to submit reclamation. Please try again.');
+      }
+    );
+  }
+    
 }

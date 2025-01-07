@@ -1,19 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { ClassroomService } from 'src/app/services/classroom.service';
 import { SubjectService } from 'src/app/services/subject.services';
+interface UserDetails {
+  username: string;
+  email: string;
+  cin: string;
+  id: string;
+  role: string;
+  classId: string; // Assuming classId is part of user details
 
+}
 @Component({
   selector: 'app-admin-course',
   templateUrl: './admin-course.component.html',
   styleUrls: ['./admin-course.component.css']
 })
-export class AdminCourseComponent {
+export class AdminCourseComponent implements OnInit {
   courses: any[] = [];
   courseName: string = '';
   searchQuery: string = '';
-  courseToUpdate: any = null; // Add this line to define the courseToUpdate property
+  courseToUpdate: any = null; // Property for course to update
+  classrooms: any[] = []; // Array to hold classrooms
+  selectedClassrooms: number[] = []; // Array to hold selected classroom IDs
+  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
 
-  constructor(private courseService: SubjectService, private router: Router) {}
+  constructor(
+    private courseService: SubjectService, 
+    private router: Router, 
+    private classroomService: ClassroomService,
+    private authService: AuthService
+  ) {}
 
   // Search functionality to navigate based on query
   onSearch() {
@@ -36,16 +54,31 @@ export class AdminCourseComponent {
     }
   }
 
-  ngOnInit(): void {
-    this.loadCourses();
+  // Load classrooms from the ClassroomService
+  loadClassrooms(): void {
+    this.classroomService.getClassrooms().subscribe((data) => {
+      this.classrooms = data;  // Populate the classrooms array with the fetched data
+    });
   }
 
-  // Load all courses from the service
+  ngOnInit(): void {
+    const fetchedDetails = this.authService.getUserDetails();
+    if (fetchedDetails) {
+      this.userDetails = fetchedDetails;
+      console.log('Logged in user details:', this.userDetails);
+      
+   
+    this.loadCourses();
+    this.loadClassrooms();  // Fetch classrooms when the component initializes
+  }}
+
   loadCourses(): void {
     this.courseService.getAllSubjects().subscribe((data) => {
+      console.log(data); // Log the data to check the structure
       this.courses = data;
     });
   }
+  
 
   // Add a new course
   addCourse(): void {
@@ -55,12 +88,14 @@ export class AdminCourseComponent {
     }
 
     const newCourse = {
-      name: this.courseName
+      name: this.courseName,
+      classroomIds: this.selectedClassrooms // Add selected classroom IDs
     };
 
-    this.courseService.createSubject(newCourse).subscribe(() => {
+    this.courseService.createSubject(newCourse.name, newCourse.classroomIds).subscribe(() => {
       this.loadCourses();
       this.courseName = ''; // Clear input field after adding course
+      this.selectedClassrooms = []; // Clear selected classrooms after adding course
     });
   }
 
@@ -78,6 +113,7 @@ export class AdminCourseComponent {
   openUpdateForm(course: any) {
     this.courseToUpdate = { ...course };  // Copy the course data to courseToUpdate
     this.courseName = course.name;  // Set the course name in the input field
+    this.selectedClassrooms = course.classroomIds || [];  // Set selected classrooms for the course
   }
 
   // Method to update the course
@@ -87,14 +123,18 @@ export class AdminCourseComponent {
       return;
     }
 
-    const courseData = {
-      name: this.courseName
+    const updatedCourseData = {
+      name: this.courseName,
+      classroomIds: this.selectedClassrooms // Use selected classrooms for update
     };
 
-    this.courseService.updateSubject(this.courseToUpdate.id, courseData).subscribe(() => {
-      this.loadCourses();
-      this.courseName = ''; // Clear input field after updating
-      this.courseToUpdate = null; // Reset the courseToUpdate after updating
-    });
+    if (this.courseToUpdate) {
+      this.courseService.updateSubject(this.courseToUpdate.id, updatedCourseData.name, updatedCourseData.classroomIds).subscribe(() => {
+        this.loadCourses();
+        this.courseName = ''; // Clear input field after updating
+        this.selectedClassrooms = []; // Clear selected classrooms after updating
+        this.courseToUpdate = null; // Reset the courseToUpdate after updating
+      });
+    }
   }
 }

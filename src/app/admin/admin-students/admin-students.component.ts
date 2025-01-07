@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service'; // Ensure UserService is imported
-
+interface UserDetails {
+  username: string;
+  email: string;
+  cin: string;
+  id: string;
+  role: string;
+  classId: string; // Assuming classId is part of user details
+}
 @Component({
   selector: 'app-admin-students',
   templateUrl: './admin-students.component.html',
@@ -13,12 +21,20 @@ export class AdminStudentsComponent implements OnInit {
 
   constructor(
     private userService: UserService, // Inject UserService
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    const fetchedDetails = this.authService.getUserDetails();
+    if (fetchedDetails) {
+      this.userDetails = fetchedDetails;
+      console.log('Logged in user details:', this.userDetails);
+      
+   
     this.getStudents(); // Fetch students when the component loads
-  }
+  }}
+  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
 
   getStudents(): void {
     this.userService.findAll().subscribe((data: any[]) => {

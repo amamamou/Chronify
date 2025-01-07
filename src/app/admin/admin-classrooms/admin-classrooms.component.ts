@@ -1,7 +1,16 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { ClassroomService } from 'src/app/services/classroom.service';
+interface UserDetails {
+  username: string;
+  email: string;
+  cin: string;
+  id: string;
+  role: string;
+  classId: string; // Assuming classId is part of user details
 
+}
 @Component({
   selector: 'app-admin-classrooms',
   templateUrl: './admin-classrooms.component.html',
@@ -13,8 +22,9 @@ export class AdminClassroomsComponent {
   isEditing: boolean = false;  // Flag to track if we're editing a classroom
   editingClassroom: any = {};  // Holds the classroom being edited
   searchQuery: string = '';
+  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
 
-  constructor(private classroomService: ClassroomService, private router: Router) {}
+  constructor(private classroomService: ClassroomService, private router: Router,private authService: AuthService) {}
 
   onSearch() {
     const query = this.searchQuery.toLowerCase().trim();
@@ -37,8 +47,14 @@ export class AdminClassroomsComponent {
   }
 
   ngOnInit(): void {
+    const fetchedDetails = this.authService.getUserDetails();
+    if (fetchedDetails) {
+      this.userDetails = fetchedDetails;
+      console.log('Logged in user details:', this.userDetails);
+      
+   
     this.fetchClassrooms();  // Fetch classrooms on initialization
-  }
+  }}
 
   // Fetch classrooms from the backend
   fetchClassrooms(): void {

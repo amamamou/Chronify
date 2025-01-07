@@ -1,7 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { InstitutionService } from 'src/app/services/institution.service';
+interface UserDetails {
+  username: string;
+  email: string;
+  cin: string;
+  id: string;
+  role: string;
+  classId: string; // Assuming classId is part of user details
 
+}
 @Component({
   selector: 'app-admin-establishments',
   templateUrl: './admin-establishments.component.html',
@@ -20,15 +29,23 @@ export class AdminEstablishmentsComponent implements OnInit {
   };
   institutions: any[] = [];
   isEditMode: boolean = false;
+  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
 
   constructor(
     private router: Router,
-    private institutionService: InstitutionService
+    private institutionService: InstitutionService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
+    const fetchedDetails = this.authService.getUserDetails();
+    if (fetchedDetails) {
+      this.userDetails = fetchedDetails;
+      console.log('Logged in user details:', this.userDetails);
+      
+   
     this.loadInstitutions();
-  }
+  }}
 
   loadInstitutions() {
     this.institutionService.getAll().subscribe(

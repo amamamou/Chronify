@@ -3,7 +3,16 @@ import { Router } from '@angular/router';
 import { StudentService } from 'src/app/services/student.service';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { InstitutionService } from 'src/app/services/institution.service'; // Import InstitutionService
+import { AuthService } from 'src/app/services/auth.service';
+interface UserDetails {
+  username: string;
+  email: string;
+  cin: string;
+  id: string;
+  role: string;
+  classId: string; // Assuming classId is part of user details
 
+}
 @Component({
   selector: 'app-admin-home',
   templateUrl: './admin-home.component.html',
@@ -15,12 +24,14 @@ export class AdminHomeComponent implements OnInit {
   totalInstitutions: number = 0; // Add institution count property
   todayDate: string = '';
   searchQuery: string = '';
+  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
 
   constructor(
     private teacherService: TeacherService,
     private studentService: StudentService,
     private institutionService: InstitutionService, // Inject InstitutionService
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   onSearch() {
@@ -43,12 +54,19 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+    const fetchedDetails = this.authService.getUserDetails();
+    if (fetchedDetails) {
+      this.userDetails = fetchedDetails;
+      console.log('Logged in user details:', this.userDetails);
+      
+      
     this.getTeachersCount();
     this.getStudentsCount();
     this.getInstitutionsCount(); // Fetch institution count
     this.formatTodayDate();
-  }
+    }}
+  
 
   // Fetch total teachers count
   getTeachersCount(): void {

@@ -83,11 +83,12 @@
             </a>
         </div>
         <div class="menu-item logout">
-            <a [routerLink]="['/logout']">
+            <a (click)="logout()">
                 <i class="fa-solid fa-sign-out-alt" style="color: #E74040; font-size: 18px;"></i>
                 <p class="logout-text" style="color: #E74040;">Sign Out</p>
             </a>
         </div>
+        
     </div>
 </div>
 

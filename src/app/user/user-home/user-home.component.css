@@ -643,3 +643,62 @@
     text-align: center; /* Optional: Centers the text */
   }
   
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+table th {
+  background-color: #4169e1;
+  color: white;
+  font-weight: bold;
+}
+
+table td {
+  background-color: #f9f9f9;
+}
+
+table tr:nth-child(even) td {
+  background-color: #f1f1f1;
+}
+
+table tr:hover {
+  background-color: #e1e1e1;
+}
+
+/* No Schedule Message */
+.schedule-section p {
+  font-size: 1.1rem;
+  color: #888;
+  margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .schedule-container {
+    padding: 15px;
+  }
+
+  .schedule-container h2 {
+    font-size: 1.5rem;
+  }
+
+  .print-button, .close-button {
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+
+  table th, table td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+}

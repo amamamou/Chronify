@@ -1,39 +1,30 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { ReclamationService } from 'src/app/services/reclamation.service';
+interface UserDetails {
+  username: string;
+  email: string;
+  cin: string;
+  id: string;
+  role: string;
+  classId: string; // Assuming classId is part of user details
 
+}
 @Component({
   selector: 'app-admin-reclamation',
   templateUrl: './admin-reclamation.component.html',
   styleUrls: ['./admin-reclamation.component.css']
 })
 export class AdminReclamationComponent {
+  reclamationData = { name: '', email: '', message: '' };
+  reclamations: any[] = [];
 
   searchQuery: string = '';
-  complaints = [
-    {
-      id: 1,
-      userName: 'John Doe',
-      email: 'johndoe@example.com',
-      description: 'Issue with login functionality.',
-      status: 'Pending',
-    },
-    {
-      id: 2,
-      userName: 'Jane Smith',
-      email: 'janesmith@example.com',
-      description: 'Error in payment process.',
-      status: 'Resolved',
-    },
-    {
-      id: 3,
-      userName: 'Michael Brown',
-      email: 'michaelbrown@example.com',
-      description: 'Complaint about service quality.',
-      status: 'In Progress',
-    },
-  ];
+  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
 
-  constructor(private router: Router) {}
+
+  constructor(private reclamationService: ReclamationService, private router: Router,private authService: AuthService) {}
   onSearch() {
     const query = this.searchQuery.toLowerCase().trim();
 
@@ -53,5 +44,42 @@ export class AdminReclamationComponent {
       this.router.navigate(['/admin/home']);
     }
   }
-}
+  
+
+  // Method to handle form submission
+  submitReclamation() {
+    this.reclamationService.createReclamation(this.reclamationData).subscribe(
+      (response) => {
+        console.log('Reclamation sent successfully', response);
+        this.loadReclamations();  // Reload the list of reclamations
+      },
+      (error) => {
+        console.error('Error sending reclamation', error);
+      }
+    );
+  }
+
+  // Method to load all reclamations
+  loadReclamations() {
+    this.reclamationService.getAllReclamations().subscribe(
+      (reclamations) => {
+        this.reclamations = reclamations;
+      },
+      (error) => {
+        console.error('Error loading reclamations', error);
+      }
+    );
+  }
+
+  ngOnInit() {
+    const fetchedDetails = this.authService.getUserDetails();
+    if (fetchedDetails) {
+      this.userDetails = fetchedDetails;
+      console.log('Logged in user details:', this.userDetails);
+      
+   
+    this.loadReclamations();  // Load reclamations on component initialization
+  }
+}}
+
 
