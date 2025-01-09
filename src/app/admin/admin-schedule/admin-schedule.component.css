@@ -34,34 +34,70 @@ h2 {
   letter-spacing: 1px;
 }
 
+/* Updated Filters Styling */
 .filters {
   display: flex;
   gap: 25px;
   margin-bottom: 30px;
   font-size: 16px;
   align-items: center;
+  background-color: #f9f9f9; /* Add a subtle background */
+  padding: 15px; /* Add padding for better spacing */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
 }
 
 .filters label {
-  font-weight: 500;
-  color: #555;
+  font-weight: 600; /* Make the label text slightly bolder */
+  color: #333; /* Darker text color for better contrast */
 }
 
 .filters select,
 .filters input {
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px; /* More rounded corners */
   font-size: 16px;
-  width: 250px;
-  transition: border-color 0.3s ease;
+  width: 200px; /* Slightly wider fields */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .filters select:focus,
 .filters input:focus {
-  border-color: #4e7bbf;
+  border-color: #365f9e; /* Highlight color on focus */
+  box-shadow: 0px 0px 5px rgba(54, 95, 158, 0.5); /* Add glow effect */
   outline: none;
 }
+
+/* Updated Print Button Styling */
+.print-btn-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: right;
+}
+
+.print-btn {
+  padding: 12px 25px;
+  background-color: #4e7bbf; /* Primary button color */
+  color: white;
+  font-size: 16px;
+  font-weight: 600; /* Make text bold */
+  border: none;
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.print-btn:hover {
+  background-color: #365f9e; /* Darker shade on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.print-btn:active {
+  background-color: #2a4e7a; /* Even darker shade on click */
+  transform: scale(1); /* Reset size */
+}
+
 
 table {
   width: 100%;
@@ -109,38 +145,10 @@ td:nth-child(2), td:nth-child(3), td:nth-child(4), td:nth-child(5), td:nth-child
   border-radius: 5px;
 }
 
-.print-btn-container {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  text-align: right;
-}
 
-.print-btn {
-  padding: 12px 25px;
-  background-color: #4e7bbf;
-  color: white;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
-.print-btn:hover {
-  background-color: #365f9e;
-}
 
-/* Footer Styling */
-.footer {
-  text-align: center;
-  padding: 20px 0;
-  font-size: 14px;
-  color: #808080;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
+
 .profile-section {
   display: flex; /* Align profile picture and text horizontally */
   align-items: center; /* Vertically center the items */
@@ -229,6 +237,192 @@ text-align: right; /* Align the placeholder text to the right */
   display: flex; /* Use flexbox to align items horizontally */
   align-items: center; /* Vertically center the items */
 }
+
+.no-schedule {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  margin-top: 5px;
+}
+/* Styling for the Schedule Input Section */
+.schedule-input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+}
+
+.schedule-input-section label {
+  font-weight: 500;
+  color: #2e3b47;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.schedule-input-section select,
+.schedule-input-section input {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.schedule-input-section select:focus,
+.schedule-input-section input:focus {
+  border-color: #4e7bbf;
+  box-shadow: 0px 0px 5px rgba(78, 123, 191, 0.5);
+  outline: none;
+}
+
+.schedule-input-section select option,
+.schedule-input-section input::placeholder {
+  color: #808080;
+}
+
+.schedule-input-section input::placeholder {
+  font-style: italic;
+}
+
+.schedule-input-section select {
+  appearance: none; /* Remove default browser styles */
+  background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 12 15 18 9"%3E%3C/polyline%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 14px;
+}
+
+.schedule-input-section select:hover {
+  cursor: pointer;
+}
+
+.schedule-input-section input {
+  box-sizing: border-box;
+}
+
+.schedule-input-section .duration-input {
+  width: calc(100% - 20px);
+}
+/* Generate Schedule Button Styling */
+.generate-btn {
+  padding: 12px 25px;
+  background-color: #4e7bbf;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.generate-btn:hover {
+  background-color: #365f9e;
+}
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.generate-btn {
+  padding: 12px 25px;
+  background-color: #4e7bbf;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.generate-btn:hover {
+  background-color: #365f9e;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-content label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+.modal-content select,
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.modal-content select:focus,
+.modal-content input:focus {
+  border-color: #4169e1;
+}
+
+
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  color: #333333;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #ff0000;
+}
+
+
+/* Specific styling for the duration input */
+#duration {
+  background-color: #f9f9f9; /* Slightly off-white background for distinction */
+  font-style: italic; /* Placeholder text style */
+  width: 90%;
+  padding: 10px;
+}
 /* Footer Styling */
 .footer {
   text-align: center; /* Center-align the text */
@@ -236,10 +430,5 @@ text-align: right; /* Align the placeholder text to the right */
   font-size: 14px; /* Set font size */
   color: #808080; /* Gray color for the text */
   position: absolute;
-}
-.no-schedule {
-  color: #888;
-  font-style: italic;
-  text-align: center;
-  margin-top: 5px;
+margin-left: 480px;
 }

@@ -1,107 +1,116 @@
-<app-admin-sidebar ></app-admin-sidebar>
+<app-admin-sidebar></app-admin-sidebar>
 
-
-  <div class="schedule-container">
-  <!-- Profile and Notification Section -->
+<div class="schedule-container">
+  <!-- Top Section -->
   <div class="top-right-section">
-    <!-- Search Bar -->
-    <div class="search-bar">
-     <input type="text" placeholder="Search" class="search-input" [(ngModel)]="searchQuery" (keyup)="onSearch()" />
-   </div>
-
-   <!-- Profile Section -->
-   <div class="profile-section">
-     <div class="profile-pic">
-       <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
-     </div>
-     <div class="profile-info">
-       <p class="admin-name">{{ userDetails.username }}</p>
-       <p class="admin-email">admin</p>
-     </div>
-   </div>
-
-   <!-- Notification Icon -->
-   <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
- </div>
-
-    <div class="schedule-header">
-      <h2>Schedule Timetable</h2>
-      <div class="title-underline"></div>
-
-      <p>Academic Year: 2025 | Printed on: {{ currentDate | date: 'MMMM dd, yyyy' }}</p>
-      <!-- <p>
-       <strong>Filters Applied:</strong>
-        <span *ngIf="selectedTeacher">Teacher: {{ selectedTeacher }}</span>
-        <span *ngIf="selectedDay"> | Day: {{ selectedDay }}</span>
-        <span *ngIf="selectedClass"> | Class: {{ selectedClass }}</span>
-      </p>
-      -->
-    </div>
-
-    <div class="schedule-input-section">
-      <input id="teacherName" [(ngModel)]="newSchedule.teacherName" placeholder="Enter teacher's name" />
-      <input id="subjectName" [(ngModel)]="newSchedule.subjectName" placeholder="Enter subject name" />
-      <input id="className" [(ngModel)]="newSchedule.className" placeholder="Enter class name" />
-      <input id="duration" [(ngModel)]="newSchedule.duration" placeholder="Enter duration" />
-      
-
-      <button (click)="generateSchedule()">Generate Schedule</button>
-    </div>
-
-  
-
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th *ngFor="let day of days">{{ day }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let slot of timeSlots">
-            <td>{{ slot.time }}</td>
-            <td *ngFor="let day of days">
-              <!-- Check if the time slot is from 12:00 to 13:00 -->
-              <div *ngIf="slot.time === '12:00 - 13:00'">
-                <p class="lunch-break">Lunch Break</p>
-              </div>
-              <!-- For other time slots, check if there are classes scheduled -->
-              <div *ngIf="getCoursesForSlotAndDay(slot, day).length === 0 && slot.time !== '12:00 - 13:00'; else scheduleAvailable">
-                <p class="no-schedule">No classes are scheduled for this time slot</p>
-              </div>
-              <ng-template #scheduleAvailable>
-                <div *ngFor="let schedule of getCoursesForSlotAndDay(slot, day)">
-                  <div *ngIf="schedule">
-                    <p><strong>Teacher: {{ schedule.teacher?.name }}</strong></p>
-                    <p>Subject: {{ schedule.subject?.name }}</p>
-                    <p>Class: {{ schedule.classroom?.name }}</p>
-                    <p>Room: {{ schedule.class?.name }}</p>
-                  </div>
-                </div>
-              </ng-template>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    
-    <div class="filters" *ngIf="!isPrinting">
-      <label for="dayFilter">Filter by Day:</label>
-      <select [(ngModel)]="selectedDay" id="dayFilter">
-        <option *ngFor="let day of days" [value]="day">{{ day }}</option>
-      </select>
-
-      <label for="teacherFilter">Filter by Teacher:</label>
-      <input [(ngModel)]="selectedTeacher" id="teacherFilter" placeholder="Search for teacher" />
-
-      <label for="classFilter">Filter by Class:</label>
-      <input [(ngModel)]="selectedClass" id="classFilter" placeholder="Search for class" />
-    </div>
-    <div class="print-section" *ngIf="!isPrinting">
-      <button  class="print-btn" (click)="isPrinting = true; printSchedule()">Print</button>
-    </div>
-
-
+   <!-- Search Bar -->
+   <div class="search-bar">
+    <input type="text" placeholder="Search" class="search-input" [(ngModel)]="searchQuery" (keyup)="onSearch()" />
   </div>
-  
+    <div class="profile-section">
+      <div class="profile-pic">
+        <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
+      </div>
+      <div class="profile-info">
+        <p class="admin-name">{{ userDetails.username }}</p>
+        <p class="admin-email">admin</p>
+      </div>
+    </div>
+
+    <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
+  </div>
+
+  <!-- Schedule Header -->
+  <div class="schedule-header">
+    <h2>Schedule Timetable</h2>
+    <div class="title-underline"></div>
+    <p>Academic Year: 2025 | Printed on: {{ currentDate | date: 'MMMM dd, yyyy' }}</p>
+  </div>
+
+  <!-- Generate Schedule Modal -->
+  <button class="generate-btn" (click)="openModal()">Generate Schedule</button>
+  <div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <div>
+        <label for="teacherName">Select Teacher:</label>
+        <select id="teacherName" [(ngModel)]="newSchedule.teacherName">
+          <option *ngFor="let teacher of teachers" [value]="teacher.name">{{ teacher.name }}</option>
+        </select>
+
+        <label for="subjectName">Select Subject:</label>
+        <select id="subjectName" [(ngModel)]="newSchedule.subjectName">
+          <option *ngFor="let subject of subjects" [value]="subject.name">{{ subject.name }}</option>
+        </select>
+
+        <label for="className">Select Class:</label>
+        <select id="className" [(ngModel)]="newSchedule.className">
+          <option *ngFor="let classItem of classes" [value]="classItem.name">{{ classItem.name }}</option>
+        </select>
+
+        <label for="duration">Enter Duration:</label>
+        <input id="duration" [(ngModel)]="newSchedule.duration" placeholder="Enter duration" />
+      </div>
+      <button class="generate-btn"  (click)="saveSchedule()">Save Schedule</button>
+    </div>
+  </div>
+
+  <!-- Schedule Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th *ngFor="let day of days">{{ day }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let slot of timeSlots">
+          <td>{{ slot.time }}</td>
+          <td *ngFor="let day of days">
+            <div *ngIf="slot.time === '12:00 - 13:00'; else otherSlots">
+              <p class="lunch-break">Lunch Break</p>
+            </div>
+            <ng-template #otherSlots>
+              <div *ngIf="getCoursesForSlotAndDay(slot, day).length === 0">
+                <p class="no-schedule">No classes scheduled</p>
+              </div>
+              <div *ngFor="let schedule of getCoursesForSlotAndDay(slot, day)">
+                <p><strong>Teacher: {{ schedule.teacher?.name }}</strong></p>
+                <p>Subject: {{ schedule.subject?.name }}</p>
+                <p>Class: {{ schedule.classroom?.name }}</p>
+              </div>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Filters -->
+<div class="filters">
+  <label for="dayFilter">Filter by Day:</label>
+  <select [(ngModel)]="selectedDay" id="dayFilter">
+    <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+  </select>
+
+  <label for="teacherFilter">Filter by Teacher:</label>
+  <select [(ngModel)]="selectedTeacher" id="teacherFilter">
+    <option *ngFor="let teacher of teachers" [value]="teacher.name">{{ teacher.name }}</option>
+  </select>
+
+  <label for="classFilter">Filter by Class:</label>
+  <select [(ngModel)]="selectedClass" id="classFilter">
+    <option *ngFor="let classItem of classes" [value]="classItem.name">{{ classItem.name }}</option>
+  </select>
+    <!-- Print Button -->
+
+  <button class="print-btn" (click)="printSchedule()">Print</button>
+
+</div>
+   <!-- Footer Section -->
+   <div class="footer">
+    <p>&copy; 2025 TimeMaster. All rights reserved.</p>
+  </div>
+
+</div>
