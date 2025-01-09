@@ -39,7 +39,7 @@ h2 {
   display: flex;
   gap: 25px;
   margin-bottom: 30px;
-  font-size: 16px;
+  font-size: 15px;
   align-items: center;
   background-color: #f9f9f9; /* Add a subtle background */
   padding: 15px; /* Add padding for better spacing */
@@ -415,7 +415,14 @@ text-align: right; /* Align the placeholder text to the right */
   color: #ff0000;
 }
 
-
+app-admin-sidebar {
+  width: 250px; /* Adjust the sidebar width */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 1; /* Ensure the sidebar stays on top */
+}
 /* Specific styling for the duration input */
 #duration {
   background-color: #f9f9f9; /* Slightly off-white background for distinction */
@@ -431,4 +438,168 @@ text-align: right; /* Align the placeholder text to the right */
   color: #808080; /* Gray color for the text */
   position: absolute;
 margin-left: 480px;
+}
+/* Styling for the horizontal line */
+hr {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 20px 0;
+  position: relative;
+}
+
+hr::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #e0e0e0, #ffffff, #e0e0e0);
+}
+
+hr.smooth {
+  margin: 25px 0;
+  border-top: 1px solid #dcdcdc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+hr.smooth:hover {
+  border-top: 1px solid #b0b0b0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+/* Sidebar styles */
+.menu {
+  background: #4e7bbf; /* Sidebar background color */
+  width: 200px; /* Set a fixed width for the sidebar */
+  height: 98.5%; /* Full height */
+  top: 50%; /* Vertically center the sidebar */
+  margin-left: 120px; /* Horizontally center the sidebar */
+  transform: translate(-50%, -50%); /* Adjust to truly center the sidebar */
+  border-radius: 15px; /* Rounded corners */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+  color: #ffffff; /* Text color */
+  font-family: 'Poppins', sans-serif; /* Apply Poppins font */
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); /* Horizontal, Vertical, Blur Radius, Color */
+  position: fixed;
+}
+
+.menu-items {
+  margin-top: 0px;
+  font-family: 'Poppins', sans-serif; /* Apply Poppins font */
+  list-style: none; /* Remove list styling */
+  padding: 0; /* Remove padding */
+}
+
+
+.menu-item a {
+  display: flex; /* Align icon and text */
+  align-items: center; /* Center vertically */
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit color from parent */
+  padding: 2px ; /* Add padding for consistent spacing */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover */
+}
+
+.menu-item a:hover {    
+  background-color: #365f9e; /* Change background color on hover */
+  color: #ffffff; /* Ensure text color stays white on hover */
+}
+
+.menu-item img {
+  width: 20px; /* Set a consistent width for all icons */
+  height: 20px; /* Set a consistent height for all icons */
+  object-fit: contain; /* Ensure the icons maintain their aspect ratio */
+}
+
+.menu-item p, .menu-item span {
+  margin-left: 10px; /* Space between icon and text */
+  font-weight: 700; /* Make the text bold */
+}
+
+.logout {
+  margin-top: auto; /* Push logout to the bottom */
+}
+
+.logo {
+  margin-top:10px; /* Adjust this value to move the logo down */
+  text-align: center; /* Optional: centers the logo horizontally */
+}
+
+.site-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 15px;
+  letter-spacing: 0.1px;
+  text-align: left;
+  color: white; /* Adjust this if you want a different color */
+  margin-left: 10px; /* Adds some space between the logo and text */
+  position: relative;
+  top: -8px; /* Adjust this value to raise the text higher */
+}
+
+.logo img {
+  height: 41px;
+}
+
+/* Print-specific styles */
+@media print {
+  /* Hide everything except the table and footer */
+  body  {
+    visibility: hidden;
+  }
+
+  .table-container, .footer {
+    visibility: visible;
+  }
+
+  .table-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 90%;
+    margin: 0;
+    box-shadow: none; /* Remove shadow for print */
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    box-shadow: none; /* Remove shadow for print */
+  }
+
+   /* Make the table look more formal */
+   table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+  }
+
+  th, td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  th {
+    background-color: #4e7bbf;
+    color: white;
+    font-weight: bold;
+  }
+
+  td {
+    background-color: #fff;
+    color: #333;
+  }
+
+  td:nth-child(1) {
+    font-weight: bold;
+    background-color: #f0f0f0;
+  }
 }

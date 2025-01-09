@@ -141,6 +141,9 @@ export class AdminScheduleComponent implements OnInit {
       );
     });
   }
+  logout() {
+    this.authService.logout(); // Call the logout method from AuthService
+  }
   onSearch() {
     const query = this.searchQuery.toLowerCase().trim();
 

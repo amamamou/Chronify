@@ -1,12 +1,91 @@
-<app-admin-sidebar></app-admin-sidebar>
+<body><div class="sidebar"><div class="menu">
+  <div class="logo">
+      <img src="assets/logoTM.png" alt="TimeMaster Logo" />
+      <br>
+      <span class="site-title">TimeMaster</span>
+    </div>
+  <div class="menu-items">
+      <div class="menu-item">
+          <a [routerLink]="['/admin/home']">
+              <img src="assets/icons/Home.png" alt="Home Icon" />
+              <p>Home</p>
+          </a>
+      </div>
+      <div class="menu-item">
+          <a [routerLink]="['/admin/users']">
+              <img src="assets/icons/People.png" alt="Students Icon" />
+              <p>Users</p>
+          </a>
+      </div>
+      <div class="menu-item">
+          <a [routerLink]="['/admin/students']">
+              <img src="assets/icons/Graduate.png" alt="Students Icon" />
+              <p>Students</p>
+          </a>
+      </div>
 
+      <div class="menu-item">
+          <a [routerLink]="['/admin/teachers']">
+              <img src="assets/icons/Training.png" alt="Teachers Icon" />
+              <p>Teachers</p>
+          </a>
+      </div>
+      <div class="menu-item">
+          <a [routerLink]="['/admin/establishments']">
+              <img src="assets/icons/Uni.png" alt="Subjects Icon" />
+            <p>Establishments</p>
+          </a>
+      </div>
+      <div class="menu-item">
+          <a [routerLink]="['/admin/classrooms']">
+              <img src="assets/icons/Classroom.png" alt="Classes Icon" />
+              <p>Classrooms</p>
+          </a>
+      </div>
+      <div class="menu-item">
+          <a [routerLink]="['/admin/classes']">
+              <img src="assets/icons/Students.png" alt="Classes Icon" />
+              <p>Classes</p>
+          </a>
+      </div>
+
+      <div class="menu-item">
+          <a [routerLink]="['/admin/courses']">
+              <img src="assets/icons/Subject.png" alt="Subjects Icon" />
+              <p>Courses</p>
+          </a>
+      </div>
+    
+
+      <div class="menu-item">
+          <a [routerLink]="['/admin/schedule']">
+              <img src="assets/icons/Schedule.png" alt="Subjects Icon" />
+              <p>Timetables</p>
+          </a>
+      </div>
+      <div class="menu-item">
+          <a [routerLink]="['/admin/reclamations']">
+              <img src="assets/icons/Complaint.png" alt="Subjects Icon" />
+              <p>Complaints</p>
+          </a>
+      </div>
+      <div class="menu-item logout" style="margin-top: -17px;">
+          <a (click)="logout()">
+              <i class="fa-solid fa-sign-out-alt" style="color: #E74040; font-size: 18px;"></i>
+              <p class="logout-text" style="color: #E74040;">Sign Out</p>
+          </a>
+      </div>
+      
+  </div>
+</div>
+</div>
 <div class="schedule-container">
   <!-- Top Section -->
   <div class="top-right-section">
-   <!-- Search Bar -->
-   <div class="search-bar">
-    <input type="text" placeholder="Search" class="search-input" [(ngModel)]="searchQuery" (keyup)="onSearch()" />
-  </div>
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search" class="search-input" [(ngModel)]="searchQuery" (keyup)="onSearch()" />
+    </div>
     <div class="profile-section">
       <div class="profile-pic">
         <img src="assets/teacher1.jpg" alt="Admin Profile" class="profile-img" />
@@ -20,12 +99,20 @@
     <img src="assets/adminhome/notif.png" alt="Notification" class="notif-image" />
   </div>
 
-  <!-- Schedule Header -->
-  <div class="schedule-header">
+  <div class="scheader">
     <h2>Schedule Timetable</h2>
     <div class="title-underline"></div>
-    <p>Academic Year: 2025 | Printed on: {{ currentDate | date: 'MMMM dd, yyyy' }}</p>
+    <!--<p>Academic Year: 2025 | Printed on: {{ currentDate | date: 'MMMM dd, yyyy' }}</p>
+  
+     Print-only Info 
+    <div class="print-info">
+      <p class="academic-year">Academic Year: 2025</p>
+      <p class="print-date">Printed on: {{ currentDate | date: 'MMMM dd, yyyy' }}</p>
+      <p class="printed-by">Printed by: {{ userDetails.username }}</p>
+      <p class="contact-info">Contact: admin@timemaster.com</p>
+    </div>-->
   </div>
+  
 
   <!-- Generate Schedule Modal -->
   <button class="generate-btn" (click)="openModal()">Generate Schedule</button>
@@ -51,7 +138,7 @@
         <label for="duration">Enter Duration:</label>
         <input id="duration" [(ngModel)]="newSchedule.duration" placeholder="Enter duration" />
       </div>
-      <button class="generate-btn"  (click)="saveSchedule()">Save Schedule</button>
+      <button class="generate-btn" (click)="saveSchedule()">Save Schedule</button>
     </div>
   </div>
 
@@ -75,10 +162,12 @@
               <div *ngIf="getCoursesForSlotAndDay(slot, day).length === 0">
                 <p class="no-schedule">No classes scheduled</p>
               </div>
-              <div *ngFor="let schedule of getCoursesForSlotAndDay(slot, day)">
-                <p><strong>Teacher: {{ schedule.teacher?.name }}</strong></p>
+              <div *ngFor="let schedule of getCoursesForSlotAndDay(slot, day); let last = last">
+                <p><strong>Class: {{ schedule.classroom?.name }}</strong></p>
+                <p>Teacher: {{ schedule.teacher?.name }}</p>
                 <p>Subject: {{ schedule.subject?.name }}</p>
-                <p>Class: {{ schedule.classroom?.name }}</p>
+                <!-- Show the line only if it's not the last schedule -->
+                <hr *ngIf="!last" class="smooth" />
               </div>
             </ng-template>
           </td>
@@ -88,29 +177,29 @@
   </div>
 
   <!-- Filters -->
-<div class="filters">
-  <label for="dayFilter">Filter by Day:</label>
-  <select [(ngModel)]="selectedDay" id="dayFilter">
-    <option *ngFor="let day of days" [value]="day">{{ day }}</option>
-  </select>
+  <div class="filters">
+    <label for="dayFilter">Filter by Day:</label>
+    <select [(ngModel)]="selectedDay" id="dayFilter">
+      <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+    </select>
 
-  <label for="teacherFilter">Filter by Teacher:</label>
-  <select [(ngModel)]="selectedTeacher" id="teacherFilter">
-    <option *ngFor="let teacher of teachers" [value]="teacher.name">{{ teacher.name }}</option>
-  </select>
+    <label for="teacherFilter">Filter by Teacher:</label>
+    <select [(ngModel)]="selectedTeacher" id="teacherFilter">
+      <option *ngFor="let teacher of teachers" [value]="teacher.name">{{ teacher.name }}</option>
+    </select>
 
-  <label for="classFilter">Filter by Class:</label>
-  <select [(ngModel)]="selectedClass" id="classFilter">
-    <option *ngFor="let classItem of classes" [value]="classItem.name">{{ classItem.name }}</option>
-  </select>
+    <label for="classFilter">Filter by Class:</label>
+    <select [(ngModel)]="selectedClass" id="classFilter">
+      <option *ngFor="let classItem of classes" [value]="classItem.name">{{ classItem.name }}</option>
+    </select>
+
     <!-- Print Button -->
-
-  <button class="print-btn" (click)="printSchedule()">Print</button>
-
-</div>
-   <!-- Footer Section -->
-   <div class="footer">
-    <p>&copy; 2025 TimeMaster. All rights reserved.</p>
+    <button class="print-btn" (click)="printSchedule()">Print</button>
   </div>
 
+  <!-- Footer Section -->
+  <div class="footer">
+    <p>&copy; 2025 TimeMaster. All rights reserved.</p>
+  </div>
 </div>
+</body>
