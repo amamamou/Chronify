@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { ReclamationService } from 'src/app/services/reclamation.service';
 import { ScheduleService } from 'src/app/services/schedule.service';
+
 interface Message {
   sender: string;
   subject: string;
@@ -89,7 +90,6 @@ export class TeacherHomeComponent implements OnInit {
       description: "Update personal information, change your password, or upload a profile picture.",
       icon: "assets/user/3.png"
     },
-  
     {
       title: "Notifications",
       description: "View your latest updates, reminders, or alerts.",
@@ -100,7 +100,6 @@ export class TeacherHomeComponent implements OnInit {
       description: "Communicate with your instructors, peers, or support team.",
       icon: "assets/user/5.png"
     },
-  
     {
       title: "My Achievements",
       description: "Track your progress, certifications, and milestones.",
@@ -126,7 +125,6 @@ export class TeacherHomeComponent implements OnInit {
     { title: 'Event Reminder', description: 'Your upcoming event is starting soon.' }
   ];
 
-
   schedules: any[] = []; // Array to hold the teacher's schedule
 
   // Visibility flags for overlays
@@ -144,32 +142,33 @@ export class TeacherHomeComponent implements OnInit {
 
   [key: string]: any;  // This allows dynamic property access
 
-  // Methods to toggle visibility
-  toggleProfile(): void {
-    this.isProfileVisible = !this.isProfileVisible;
-    this.closeOtherOverlays('details');
-  }
+  constructor(
+    private authService: AuthService,
+    private scheduleService: ScheduleService,
+    private reclamationService: ReclamationService
+  ) {}
 
-  toggleProfileForm(): void {
-    this.isProfileFormVisible = !this.isProfileFormVisible;
-    this.closeOtherOverlays('profile');
-  }
-
-  toggleSchedule(): void {
-    this.isScheduleVisible = !this.isScheduleVisible;
-    this.closeOtherOverlays('schedule');
-  }
-
-  toggleMessages(): void {
-    this.isMessagesVisible = !this.isMessagesVisible;
-    this.closeOtherOverlays('messages');
-  }
-
-  toggleSupport(): void {
-    this.isSupportVisible = !this.isSupportVisible;
-    this.closeOtherOverlays('support');
+  ngOnInit(): void {
+    this.fetchSchedules();
+  
+    // Fetch user details from AuthService
+    const fetchedDetails = this.authService.getUserDetails();
+    if (fetchedDetails) {
+      this.userDetails = fetchedDetails;
+      console.log('Logged in user details:', this.userDetails);
+  
+      // Set the email field in reclamationData
+      if (this.userDetails.email) {
+        this.reclamationData.email = this.userDetails.email;
+      } else {
+        console.warn('User email not found in fetched details.');
+      }
+    } else {
+      console.error('No user details found. Please log in.');
+    }
   }
   
+
   fetchSchedules(): void {
     this.scheduleService.getSchedules().subscribe(
       (data) => {
@@ -180,9 +179,25 @@ export class TeacherHomeComponent implements OnInit {
       }
     );
   }
-  logout() {
+
+  logout(): void {
     this.authService.logout(); // Call the logout method from AuthService
   }
+
+  submitReclamation(): void {
+    this.reclamationService.createReclamation(this.reclamationData).subscribe(
+      (response) => {
+        alert('Reclamation submitted successfully!');
+        this.toggleSupport();
+        // Reset form but retain the user's email
+        this.reclamationData = { name: '', email: this.userDetails.email, message: '' };
+      },
+      (error) => {
+        alert('Failed to submit reclamation. Please try again.');
+      }
+    );
+  }
+
   // Getter method to filter schedules
   get filteredSchedules() {
     return this.schedules.filter(schedule => {
@@ -193,6 +208,7 @@ export class TeacherHomeComponent implements OnInit {
       );
     });
   }
+
   // Close other overlays when one is opened
   private closeOtherOverlays(activeOverlay: string): void {
     if (activeOverlay !== 'profile') this.isProfileFormVisible = false;
@@ -239,7 +255,7 @@ export class TeacherHomeComponent implements OnInit {
     if (container) {
       const scrollPosition = container.scrollLeft;
       const index = Math.floor(scrollPosition / groupWidth);
-      
+
       // Dynamically access activeIndexName property
       if (this[activeIndexName] !== index) {
         this[activeIndexName] = index;
@@ -247,33 +263,29 @@ export class TeacherHomeComponent implements OnInit {
     }
   }
 
-  constructor(private authService: AuthService,private scheduleService: ScheduleService,private reclamationService: ReclamationService) {}
-
-  ngOnInit(): void {
-    this.fetchSchedules();
-
-    // Fetch user details from AuthService
-    const fetchedDetails = this.authService.getUserDetails();
-    if (fetchedDetails) {
-      this.userDetails = fetchedDetails;
-      console.log('Logged in user details:', this.userDetails);
-    } else {
-      console.error('No user details found. Please log in.');
-    }
-  }
-  submitReclamation() {
-    this.reclamationService.createReclamation(this.reclamationData).subscribe(
-      (response) => {
-        alert('Reclamation submitted successfully!');
-        this.toggleSupport();
-        // Reset form but retain the user's email
-        this.reclamationData = { name: '', email: this.userDetails.email, message: '' };
-      },
-      (error) => {
-        alert('Failed to submit reclamation. Please try again.');
-      }
-    );
+  // Methods to toggle visibility
+  toggleProfile(): void {
+    this.isProfileVisible = !this.isProfileVisible;
+    this.closeOtherOverlays('details');
   }
 
+  toggleProfileForm(): void {
+    this.isProfileFormVisible = !this.isProfileFormVisible;
+    this.closeOtherOverlays('profile');
+  }
 
+  toggleSchedule(): void {
+    this.isScheduleVisible = !this.isScheduleVisible;
+    this.closeOtherOverlays('schedule');
+  }
+
+  toggleMessages(): void {
+    this.isMessagesVisible = !this.isMessagesVisible;
+    this.closeOtherOverlays('messages');
+  }
+
+  toggleSupport(): void {
+    this.isSupportVisible = !this.isSupportVisible;
+    this.closeOtherOverlays('support');
+  }
 }

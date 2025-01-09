@@ -11,7 +11,7 @@
             <div class="profile-pic">
               <img src="assets/student1.png" alt="Profile Picture" class="profile-img" (click)="logout()">
             </div>
-                      </div>
+            </div>
         </div>
       </div>
     </nav>
@@ -211,9 +211,9 @@
         type="email"
         id="email"
         name="email"
-        [readonly]="true"
-        [(ngModel)]="reclamationData.email"
         class="input-field"
+        [(ngModel)]="reclamationData.email"
+        disabled
       />
 
       <label for="message">Message:</label>
@@ -237,6 +237,7 @@
     </form>
   </div>
 </div>
+
 
   
     <!-- Events Section -->

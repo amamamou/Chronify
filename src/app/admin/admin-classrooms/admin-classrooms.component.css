@@ -2,7 +2,7 @@
 .classrooms-container {
     padding: 20px;
     background-color: #ffffff;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-left: 250px; /* Adjust for sidebar width */
     transition: margin-left 0.3s ease; /* Smooth transition for sidebar toggles */
 }
@@ -10,13 +10,14 @@
 
 /* Heading style */
 .classrooms-container h2 {
-    font-family: 'Avenir Next', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    color: #262A41;
-    margin-bottom: 0px;
-    margin-top: 50px;
-}
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #2e3b47;
+    margin-bottom: 5px;
+    margin-top: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;}
 
 /* Section title style */
 .section-title {
@@ -223,7 +224,7 @@ app-admin-sidebar {
 
 .admin-name {
     font-weight: 700; /* Bold the name */
-    color: #000000; /* Text color */
+    color: #2e3b47; /* Text color */
     margin-bottom: 0px; /* Reduce space between name and email */
 }
 
@@ -238,3 +239,13 @@ app-admin-sidebar {
     width: 20px; /* Adjust the width as needed */
     height: 20px; /* Maintain the aspect ratio */
 }
+/* Footer Styling */
+.footer {
+    text-align: center; /* Center-align the text */
+    padding: 20px 0; /* Add padding above and below the text */
+    font-size: 14px; /* Set font size */
+    color: #808080; /* Gray color for the text */
+    position: absolute;
+  margin-left: 480px;
+  }
+  

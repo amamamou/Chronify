@@ -7,18 +7,19 @@
       <div class="navbar-right">
         <div class="welcome-section">
           <div class="welcome-content">
-            <p>Welcome, <strong>{{ userDetails.username }}</strong></p>
+            <p>Welcome, <strong>{{ userDetails.username }}</strong></p> <!-- Display the actual username -->
             <div class="profile-pic">
               <img src="assets/student1.png" alt="Profile Picture" class="profile-img" (click)="logout()">
             </div>
-                      </div>
+            </div>
         </div>
       </div>
     </nav>
   
     <!-- Teacher Dashboard Section -->
     <section id="dashboard" class="teacher-dashboard">
-        <h2>🎓 Teacher Dashboard</h2>
+      <h2 style="text-align: center; margin: 20px auto; font-size: 22px; color: #333;">🎓 Teacher Dashboard</h2>
+    
         <p class="section-description">
           Manage your classes, assignments, and communications seamlessly.
         </p>
@@ -49,37 +50,36 @@
               alt="{{ teacherProfile.name }}"
               style="border-radius: 50%; width: 80px; height: 80px;"
             />
-            <h2 class="details-title">{{ userDetails.username }}</h2>
-            <p class="details-subtitle">Hello</p>
+           <!-- <h2 class="details-title">{{ userDetails.username }}</h2>
+            <h2 class="details-title">Hello</h2>-->
+            <p class="details-subtitle">Username: {{ userDetails.username }}</p>
           </div>
           <div class="details-content">
-          
             <div class="details-section">
-              <h3>CIN</h3>
-              <p>{{ userDetails.cin }}</p>
+              <h3>User ID</h3>
+              <p>{{ userDetails.id }}</p>
             </div>
             <div class="details-section">
               <h3>Role</h3>
               <p>{{ userDetails.role }}</p>
             </div>
-           <!-- <div class="details-section">
-              <h3>Classes</h3>
-              <p>{{ teacherProfile.classes.join(', ') }}</p>
-            </div>
-            
             <div class="details-section">
-              <h3>Subjects</h3>
-              <p>{{ teacherProfile.subjects.join(', ') }}</p>
+              <h3>Email</h3>
+              <p>{{ userDetails.email }}</p>
             </div>
-          -->
+            <div class="details-section">
+              <h3>CIN</h3>
+              <p>{{ userDetails.cin }}</p>
+            </div>
             <div class="details-section">
               <h3>Contact</h3>
               <p>Email: {{ userDetails.email }}</p>
-              <p *ngIf="teacherProfile.phone">Phone: {{ teacherProfile.phone }}</p>
+              <p *ngIf="teacherProfile.phone">Phone: +2185656565</p>
             </div>
           </div>
         </div>
       </div>
+
       
     <!-- Full-page Overlay Form for Manage Profile -->
     <div *ngIf="isProfileFormVisible" class="profile-overlay">
@@ -164,7 +164,8 @@
           </tbody>
         </table>
       </section>
- 
+    </div>
+    
   
     <!-- Messages Section -->
     <div *ngIf="isMessagesVisible" class="overlay">
@@ -185,6 +186,7 @@
           </ul>
         </div>
     </div>
+  
   <!-- Support Section -->
 <div *ngIf="isSupportVisible" class="overlay">
   <div class="support-container">
@@ -208,9 +210,9 @@
         type="email"
         id="email"
         name="email"
-        [readonly]="true"
-        [(ngModel)]="reclamationData.email"
         class="input-field"
+        [(ngModel)]="reclamationData.email"
+        disabled
       />
 
       <label for="message">Message:</label>
@@ -234,7 +236,6 @@
     </form>
   </div>
 </div>
-
 
   
     <!-- Conferences Section -->

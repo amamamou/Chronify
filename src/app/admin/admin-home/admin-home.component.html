@@ -1,5 +1,5 @@
+<app-admin-sidebar></app-admin-sidebar>
 <div class="admin-home-container">
-  <app-admin-sidebar></app-admin-sidebar>
 
   <!-- Profile and Notification Section -->
   <div class="top-right-section">
@@ -31,7 +31,7 @@
     </div>
     <div class="welcome-content">
       <div class="welcome-text-container">
-        <p class="welcome-text">Welcome back, Admin Name!</p>
+        <p class="welcome-text">Welcome back, {{ userDetails.username }}!</p>
         <p class="info-text">Always stay updated in your student portal.</p>
       </div>
       <img src="assets/adminhome/photo.png" alt="Welcome Image" class="welcome-image" />
@@ -97,4 +97,9 @@
       <img src="assets/adminhome/se.png" alt="Section Image" class="se-image" />
     </div>
   </div>
+    <!-- Footer Section -->
+  <div class="footer">
+    <p>&copy; 2025 TimeMaster. All rights reserved.</p>
+  </div>
+
 </div>

@@ -9,7 +9,7 @@ interface UserDetails {
   cin: string;
   id: string;
   role: string;
-  classId: string; // Assuming classId is part of user details
+  classId: string; 
 
 }
 @Component({
@@ -19,6 +19,19 @@ interface UserDetails {
 })
 export class AdminScheduleComponent {
   schedules: any[] = [];
+  timeSlots: any[] = [
+    { time: '08:00 - 09:00' },
+    { time: '09:00 - 10:00' },
+    { time: '10:00 - 11:00' },
+    { time: '11:00 - 12:00' },
+    { time: '12:00 - 13:00' },
+    { time: '13:00 - 14:00' },
+    { time: '14:00 - 15:00' },
+    { time: '15:00 - 16:00' },
+  ]; 
+
+  days: string[] = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+  
   selectedDay: string = '';
   selectedTeacher: string = '';
   selectedClass: string = '';
@@ -26,24 +39,22 @@ export class AdminScheduleComponent {
   currentDate = new Date();
   isPrinting: boolean = false;
 
-  // New schedule model
   newSchedule: any = {
     teacherName: '',
     subjectName: '',
     className: '',
-    duration: '',
+    duration: ''
   };
 
-  constructor(private scheduleService: ScheduleService, private router: Router,private authService: AuthService) {}
 
-// Function to handle the print logic
-printSchedule(): void {
-  // Set the flag to hide the sidebar
-  window.print();
-}
+  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };
 
-  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
+  constructor(private scheduleService: ScheduleService, private router: Router, private authService: AuthService) {}
 
+ 
+  printSchedule(): void {
+    window.print();
+  }
 
   onSearch() {
     const query = this.searchQuery.toLowerCase().trim();
@@ -64,20 +75,20 @@ printSchedule(): void {
       this.router.navigate(['/admin/home']);
     }
   }
+
   logout() {
-    this.authService.logout(); // Call the logout method from AuthService
+    this.authService.logout();
   }
 
   ngOnInit(): void {
-     const fetchedDetails = this.authService.getUserDetails();
+    const fetchedDetails = this.authService.getUserDetails();
     if (fetchedDetails) {
       this.userDetails = fetchedDetails;
       console.log('Logged in user details:', this.userDetails);
-      
-   
-    this.fetchSchedules();
+      this.fetchSchedules();
+    }
   }
-  }
+
   fetchSchedules(): void {
     this.scheduleService.getSchedules().subscribe(
       (data: any[]) => {
@@ -89,29 +100,56 @@ printSchedule(): void {
     );
   }
 
-  // Function to add a new schedule
-  addSchedule(newSchedule: any): void {
-    this.scheduleService.addSchedule(newSchedule).subscribe(
-      (data: any) => {
-        // Handle the response after adding the schedule
-        console.log('Schedule added successfully', data);
-        this.fetchSchedules(); // Refresh the schedule list
-      },
-      (error: any) => {
-        console.error('Error adding schedule:', error);
-      }
-    );
-  }
-  generateSchedule(): void {
-    if (this.newSchedule.teacherName && this.newSchedule.subjectName && this.newSchedule.className && this.newSchedule.duration) {
-      this.addSchedule(this.newSchedule);
-      this.newSchedule = { teacherName: '', subjectName: '', className: '', duration: '' }; // Reset after submission
+  generateSchedule() {
+    console.log('Generate Schedule button clicked');
+    if (
+      this.newSchedule.teacherName &&
+      this.newSchedule.subjectName &&
+      this.newSchedule.className &&
+      this.newSchedule.duration
+    ) {
+      console.log('New schedule:', this.newSchedule);
+  
+      // Prepare the data as an array
+      const scheduleArray = [{ ...this.newSchedule }];
+  
+      // Send the schedule to the backend
+      this.scheduleService.addSchedule(scheduleArray).subscribe(
+        (response) => {
+          console.log('Response from backend:', response);
+          this.fetchSchedules(); // Optionally refresh schedules
+        },
+        (error) => {
+          console.error('Error sending schedule to backend:', error);
+        }
+      );
+  
+      // Reset the input fields for new entry
+      this.newSchedule = {
+        teacherName: '',
+        subjectName: '',
+        className: '',
+        duration: ''
+      };
     } else {
-      alert('Please fill in all the fields');
+      alert('Please fill in all fields before generating the schedule.');
     }
   }
   
-  // Getter method to filter schedules
+  
+
+  getCoursesForSlotAndDay(slot: any, day: string): any[] {
+    return this.filteredSchedules.filter((schedule) => {
+      const startTime = schedule.startTime;
+      const endTime = schedule.endTime;
+
+      const slotStart = slot.time.split(' - ')[0];
+      const slotEnd = slot.time.split(' - ')[1];
+
+      return startTime === slotStart && endTime === slotEnd && schedule.day === day;
+    });
+  }
+
   get filteredSchedules() {
     return this.schedules.filter((schedule) => {
       return (

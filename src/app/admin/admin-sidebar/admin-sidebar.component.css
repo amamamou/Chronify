@@ -10,7 +10,7 @@
     overflow-y: auto; /* Allow scrolling if content overflows */
     color: #ffffff; /* Text color */
     font-family: 'Poppins', sans-serif; /* Apply Poppins font */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); /* Horizontal, Vertical, Blur Radius, Color */
     position: fixed;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .menu-item a:hover {    
-    background-color: #3a6fa5; /* Change background color on hover */
+    background-color: #365f9e; /* Change background color on hover */
     color: #ffffff; /* Ensure text color stays white on hover */
 }
 
@@ -52,7 +52,7 @@
 }
 
 .logo {
-    margin-top: 6px; /* Adjust this value to move the logo down */
+    margin-top:10px; /* Adjust this value to move the logo down */
     text-align: center; /* Optional: centers the logo horizontally */
 }
 
@@ -70,5 +70,5 @@
 }
 
 .logo img {
-    height: 30px;
+    height: 41px;
 }

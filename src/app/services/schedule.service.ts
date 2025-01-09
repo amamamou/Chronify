@@ -24,4 +24,19 @@ export class ScheduleService {
   getSchedulesByClassId(classId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/schedules/${classId}`);
   }
+
+  // Update an existing schedule
+  updateSchedule(scheduleId: string, updatedSchedule: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${scheduleId}`, updatedSchedule);
+  }
+
+  // Delete a schedule
+  deleteSchedule(scheduleId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${scheduleId}`);
+  }
+
+  // Fetch schedules by date (optional)
+  getSchedulesByDate(date: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/date/${date}`);
+  }
 }

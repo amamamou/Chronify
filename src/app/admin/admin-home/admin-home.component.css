@@ -55,7 +55,7 @@ app-admin-sidebar {
 
 .admin-name {
     font-weight: 700; /* Bold the name */
-    color: #000000; /* Text color */
+    color: #2e3b47; /* Text color */
     margin-bottom: 0px; /* Reduce space between name and email */
 }
 
@@ -167,7 +167,7 @@ app-admin-sidebar {
     margin-top: -11px;
     font-size: 20px; /* Larger font for numbers */
     font-weight: 1000; /* Bold numbers */
-    color: #000000; /* Black text */
+    color: #2e3b47; /* Black text */
     margin-bottom: 0px; /* Space between number and text */
 }
 
@@ -194,7 +194,7 @@ app-admin-sidebar {
 .enrolled-courses-title p {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    color: black;
+    color: #2e3b47;
     font-size: 24px;
     margin-bottom: 10px;
 }
@@ -248,7 +248,7 @@ app-admin-sidebar {
 .teacher-title {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    color: black;
+    color: #2e3b47;
     font-size: 24px;
     margin-bottom: 10px;
     margin-left: -250px;
@@ -257,7 +257,7 @@ app-admin-sidebar {
 .notice-title {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    color: black;
+    color: #2e3b47;
     font-size: 24px;
     margin-bottom: 10px;
     margin-top: -20px;
@@ -322,4 +322,13 @@ app-admin-sidebar {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+}
+/* Footer Styling */
+.footer {
+    text-align: center; /* Center-align the text */
+    padding: 20px 0; /* Add padding above and below the text */
+    font-size: 14px; /* Set font size */
+    color: #808080; /* Gray color for the text */
+    position: absolute;
+margin-left: 700px;
 }
