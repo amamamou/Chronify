@@ -415,7 +415,7 @@ text-align: right; /* Align the placeholder text to the right */
   color: #ff0000;
 }
 
-app-admin-sidebar {
+.sidebar {
   width: 250px; /* Adjust the sidebar width */
   position: fixed;
   top: 0;

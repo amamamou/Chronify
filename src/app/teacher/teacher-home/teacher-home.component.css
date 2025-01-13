@@ -374,48 +374,7 @@
   .close-button:hover {
     color: darkred;
   }
-  /* Schedule container style */
-/* Schedule Table Styling */
-.schedule-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.schedule-table th,
-.schedule-table td {
-  padding: 12px;
-  text-align: left;
-  border: 1px solid #ddd;
-}
-
-.schedule-table th {
-  background-color: #4e7bbf;
-  color: white;
-  font-size: 16px;
-}
-
-.schedule-table td {
-  font-size: 14px;
-  color: #333;
-}
-
-.schedule-table tr{
-  background-color: #f9f9f9;
-}
-
-.schedule-table tr:hover {
-  background-color: #f1f1f1;
-}
-.schedule-container {
-    position: relative;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: auto;
-    margin: 0 auto;
-}
+ 
 .sender {
     font-weight: bold;
     color: #0073e6;
@@ -636,29 +595,8 @@
     outline: none;
     box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.4);
   }
-  .schedule-table tbody tr td:first-child {
-    background-color: #4e7bbf;
-    color: #ffffff; /* Optional: Makes the text white for better contrast */
-    font-weight: bold; /* Optional: Highlights the time column */
-    text-align: center; /* Optional: Centers the text */
-  }
-  /* Main container for the schedule */
-.schedule-container {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  width: 80%;
-  max-width: 1000px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-}
 
-/* Header */
-h2 {
-  font-size: 24px;
-  color: #4169e1;
-  margin-bottom: 10px;
-}
+
 
 /* Section description */
 .section-description {
@@ -670,7 +608,7 @@ h2 {
 /* Buttons */
 .close-button,
 .print-button {
-  background-color: #4169e1;
+  background-color: #4e7bbf;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -690,7 +628,7 @@ h2 {
   display: flex;
   gap: 15px;
   margin-bottom: 20px;
-}
+margin-left: 250px;}
 
 .filters label {
   font-weight: bold;
@@ -705,36 +643,118 @@ h2 {
   border-radius: 5px;
   width: 200px;
 }
+/* Schedule container style */
+.schedule-container {
+  position: relative;
+  padding: 10px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: auto;
+  margin: 0 auto;
+}
 
-/* Table Section */
-table {
+/* Scrollable table container */
+.table-container {
+  max-height: 60vh; /* Adjust height as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Schedule Table Styling */
+.schedule-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  font-size: 14px;
 }
 
-table th,
-table td {
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  background-color: #4e7bbf;
+  color: white;
   padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+  text-align: center;
+  font-size: 16px;
+  position: sticky;
+  top: 0; /* Sticky header */
+  z-index: 2;
 }
 
-table th {
-  background-color: #f4f4f4;
-  font-weight: bold;
+tbody td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+  font-size: 14px;
   color: #333;
 }
 
-table tr:nth-child(even) {
+tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-table tr:hover {
+tbody tr:hover {
   background-color: #f1f1f1;
 }
 
-table td {
-  color: #555;
+/* Lunch Break Styling */
+.lunch-break {
+  color: #d9534f;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* No Schedule Styling */
+.no-schedule {
+  color: #999;
+  font-style: italic;
+  font-size: 14px;
+}
+
+/* Divider Line */
+.smooth {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 8px 0;
+}
+/* Styling for the horizontal line */
+hr {
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 20px 0;
+  position: relative;
+}
+
+hr::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #e0e0e0, #ffffff, #e0e0e0);
+}
+
+hr.smooth {
+  margin: 25px 0;
+  border-top: 1px solid #dcdcdc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+hr.smooth:hover {
+  border-top: 1px solid #b0b0b0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.schedule-table tbody tr td:first-child {
+  background-color: #4b7bbf; /* Set the desired color */
+  color: white; /* Optional: Set text color for better contrast */
+  font-weight: bold; /* Optional: Make the text bold */
 }

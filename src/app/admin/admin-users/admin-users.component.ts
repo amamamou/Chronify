@@ -31,17 +31,14 @@ export class AdminUsersComponent {
   userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
 
   constructor(private userService: UserService,private authService: AuthService) {}
-
   ngOnInit(): void {
     const fetchedDetails = this.authService.getUserDetails();
     if (fetchedDetails) {
       this.userDetails = fetchedDetails;
-      console.log('Logged in user details:', this.userDetails);
-      
-   
-    
-    this.loadUsers();
-  }
+      console.log('Détails de l\'utilisateur connecté:', this.userDetails);
+      this.loadUsers();
+
+    }
   }
   // Load all users
   loadUsers(): void {

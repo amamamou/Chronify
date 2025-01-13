@@ -125,7 +125,18 @@ export class TeacherHomeComponent implements OnInit {
     { title: 'Event Reminder', description: 'Your upcoming event is starting soon.' }
   ];
 
-  schedules: any[] = []; // Array to hold the teacher's schedule
+  schedules: any[] = [];
+  timeSlots = [
+    { time: '08:00 - 09:00' },
+    { time: '09:00 - 10:00' },
+    { time: '10:00 - 11:00' },
+    { time: '11:00 - 12:00' },
+    { time: '12:00 - 13:00' },
+    { time: '13:00 - 14:00' },
+    { time: '14:00 - 15:00' },
+    { time: '15:00 - 16:00' },
+  ];
+  days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 
   // Visibility flags for overlays
   isProfileVisible = false;
@@ -167,7 +178,16 @@ export class TeacherHomeComponent implements OnInit {
       console.error('No user details found. Please log in.');
     }
   }
-  
+  getCoursesForSlotAndDay(slot: any, day: string): any[] {
+    return this.filteredSchedules.filter((schedule) => {
+      const [slotStart, slotEnd] = slot.time.split(' - ');
+      return (
+        schedule.startTime === slotStart &&
+        schedule.endTime === slotEnd &&
+        schedule.day === day
+      );
+    });
+  }
 
   fetchSchedules(): void {
     this.scheduleService.getSchedules().subscribe(
@@ -198,17 +218,17 @@ export class TeacherHomeComponent implements OnInit {
     );
   }
 
-  // Getter method to filter schedules
-  get filteredSchedules() {
-    return this.schedules.filter(schedule => {
+  get filteredSchedules(): any[] {
+    return this.schedules.filter((schedule) => {
       return (
-        (this.selectedDay ? schedule.day === this.selectedDay : true) &&
-        (this.selectedTeacher ? schedule.teacher?.name.toLowerCase().includes(this.selectedTeacher.toLowerCase()) : true) &&
-        (this.selectedClass ? schedule.class?.name.toLowerCase().includes(this.selectedClass.toLowerCase()) : true)
+        (!this.selectedDay || schedule.day === this.selectedDay) &&
+        (!this.selectedTeacher ||
+          schedule.teacher?.name.toLowerCase().includes(this.selectedTeacher.toLowerCase())) &&
+        (!this.selectedClass ||
+          schedule.class?.name.toLowerCase().includes(this.selectedClass.toLowerCase()))
       );
     });
   }
-
   // Close other overlays when one is opened
   private closeOtherOverlays(activeOverlay: string): void {
     if (activeOverlay !== 'profile') this.isProfileFormVisible = false;

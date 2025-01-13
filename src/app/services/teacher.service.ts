@@ -16,10 +16,23 @@ export class TeacherService {
 
   addTeacher(teacher: any): Observable<any> {
     return this.http.post<any>(this.baseUrl, teacher);
+  } 
+  getTeacherByCIN(cin: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/cin/${cin}`);
   }
 
-  deleteTeacher(teacherId: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/${teacherId}`);
+// Update an existing teacher
+updateTeacher(cin: string, teacher: Partial<any>): Observable<any> {
+  const url = `${this.baseUrl}/cin/${cin}`;
+  return this.http.put<any>(url, teacher);
+}
+
+
+
+  // Delete teacher by CIN
+  deleteTeacher(cin: string): Observable<any> {
+    const url = `${this.baseUrl}/${cin}`;
+    return this.http.delete<any>(url);
   }
  
 }

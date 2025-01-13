@@ -104,67 +104,75 @@
         </div>
     </div>
   
-    <!-- Class Schedule Section -->
-    <div *ngIf="isScheduleVisible" class="overlay">
-      <section id="schedule" class="schedule-container">
-        <h2>📅 Class Schedule</h2>
-        <p class="section-description">Your teaching schedule with subjects and classroom assignments.</p>
-        <button class="close-button" (click)="toggleSchedule()">❌</button>
-    
-        <!-- Print Button -->
-        <button class="print-button" (click)="printSchedule()">Print</button>
-    
-        <!-- Filter Section -->
-        <div class="filters">
-          <label for="dayFilter">Day:</label>
-          <select id="dayFilter" [(ngModel)]="selectedDay">
-            <option value="">All</option>
-            <option value="Lundi">Lundi</option>
-            <option value="Mardi">Mardi</option>
-            <option value="Mercredi">Mercredi</option>
-            <option value="Jeudi">Jeudi</option>
-            <option value="Vendredi">Vendredi</option>
-            <option value="Samedi">Samedi</option>
-          </select>
-    
-          <label for="teacherFilter">Teacher:</label>
-          <input id="teacherFilter" [(ngModel)]="selectedTeacher" placeholder="Teacher Name" />
-    
-          <label for="classFilter">Class:</label>
-          <input id="classFilter" [(ngModel)]="selectedClass" placeholder="Class Name" />
-        </div>
-    
-        <!-- Table Section -->
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Day</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Duration</th>
-              <th>Teacher</th>
-              <th>Subject</th>
-              <th>Classroom</th>
-              <th>Class</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let schedule of filteredSchedules">
-              <td>{{ schedule.id }}</td>
-              <td>{{ schedule.day }}</td>
-              <td>{{ schedule.startTime }}</td>
-              <td>{{ schedule.endTime }}</td>
-              <td>{{ schedule.duree }}</td>
-              <td>{{ schedule.teacher?.name }}</td>
-              <td>{{ schedule.subject?.name }}</td>
-              <td>{{ schedule.classroom?.name }}</td>
-              <td>{{ schedule.class?.name }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+<!-- Class Schedule Section -->
+<div *ngIf="isScheduleVisible" class="overlay">
+  <section id="schedule" class="schedule-container">
+    <h2>📅 Class Schedule</h2>
+    <p class="section-description">Your teaching schedule with subjects and classroom assignments.</p>
+    <button class="close-button" (click)="toggleSchedule()">❌</button>
+
+
+    <!-- Filter Section -->
+    <div class="filters">
+      <label for="dayFilter">Day:</label>
+      <select id="dayFilter" [(ngModel)]="selectedDay">
+        <option value="">All</option>
+        <option value="Lundi">Lundi</option>
+        <option value="Mardi">Mardi</option>
+        <option value="Mercredi">Mercredi</option>
+        <option value="Jeudi">Jeudi</option>
+        <option value="Vendredi">Vendredi</option>
+        <option value="Samedi">Samedi</option>
+      </select>
+
+      <label for="teacherFilter">Teacher:</label>
+      <input id="teacherFilter" [(ngModel)]="selectedTeacher" placeholder="Teacher Name" />
+
+      <label for="classFilter">Class:</label>
+      <input id="classFilter" [(ngModel)]="selectedClass" placeholder="Class Name" />
+          <!-- Print Button -->
+    <button class="print-button" (click)="printSchedule()">Print</button>
+
     </div>
+
+    <!-- Schedule Table -->
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th *ngFor="let day of days">{{ day }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let slot of timeSlots">
+        <td>{{ slot.time }}</td>
+        <td *ngFor="let day of days">
+          <div *ngIf="slot.time === '12:00 - 13:00'; else otherSlots">
+            <p class="lunch-break">Lunch Break</p>
+          </div>
+          <ng-template #otherSlots>
+            <div *ngIf="getCoursesForSlotAndDay(slot, day).length === 0">
+              <p class="no-schedule">No classes scheduled</p>
+            </div>
+            <div *ngFor="let schedule of getCoursesForSlotAndDay(slot, day); let last = last">
+              <p><strong>Class: {{ schedule.classroom?.name }}</strong></p>
+              <p>Teacher: {{ schedule.teacher?.name }}</p>
+              <p>Subject: {{ schedule.subject?.name }}</p>
+              <!-- Show the line only if it's not the last schedule -->
+              <hr *ngIf="!last" class="smooth" />
+            </div>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+    </div>
+  </section>
+</div>
+
+
     
   
     <!-- Messages Section -->

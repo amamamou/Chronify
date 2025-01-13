@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { InstructorService } from 'src/app/services/instructor.service';
+import { TeacherService } from 'src/app/services/teacher.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { SubjectService } from 'src/app/services/subject.services';
 import { AuthService } from 'src/app/services/auth.service';
+import { SubjectService } from 'src/app/services/subject.services';
+
 interface UserDetails {
   username: string;
   email: string;
   cin: string;
   id: string;
   role: string;
-  classId: string; // Assuming classId is part of user details
-
+  classId: string; // Supposons que classId fait partie des détails de l'utilisateur
 }
+
 @Component({
   selector: 'app-admin-teachers',
   templateUrl: './admin-teachers.component.html',
@@ -26,16 +27,16 @@ export class AdminTeachersComponent implements OnInit {
   subjects: any[] = [];
   newSubject: string = '';
   isEditing: boolean = false;
-  currentTeacherId: number | null = null;
-  teacherCIN: string = ''; // For CIN input
-  selectedTeacher: any = null; // To hold the fetched teacher details
-  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };  // Include classId in userDetails
+  currentTeacherCIN: string | null = null;
+  teacherCIN: string = ''; // Pour l'entrée CIN
+  selectedTeacher: any = null; // Pour contenir les détails de l'enseignant récupéré
+  userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };
 
-  // Manually assign starting ID
+  // Attribuer manuellement l'ID de départ
   private nextId: number = 9;
 
   constructor(
-    private instructorService: InstructorService,
+    private teacherService: TeacherService,
     private subjectService: SubjectService,
     private router: Router,
     private authService: AuthService
@@ -45,45 +46,100 @@ export class AdminTeachersComponent implements OnInit {
     const fetchedDetails = this.authService.getUserDetails();
     if (fetchedDetails) {
       this.userDetails = fetchedDetails;
-      console.log('Logged in user details:', this.userDetails);
-      
-   
-    this.fetchTeachers();
-    this.fetchSubjects();
-  }}
+      console.log('Détails de l\'utilisateur connecté:', this.userDetails);
+      this.fetchTeachers();
+      this.fetchSubjects();
+    }
+  }
+
+  // Method to edit teacher details
+  editTeacher(teacher: any): void {
+    this.isEditing = true;
+    this.currentTeacherCIN = teacher.cin;  // Store the original CIN for updating
+    this.teacherName = teacher.name;
+    this.teacherCIN = teacher.cin;
+    this.teacherSubjects = teacher.subjects ? teacher.subjects.map((subject: any) => subject.name) : [];
+  }
+
+  saveTeacher(): void {
+    // Create the teacher data object
+    const teacherData: any = {
+      name: this.teacherName,
+      cin: this.teacherCIN,
+    };
+  
+    // Only include subjects if there are any selected
+    if (this.teacherSubjects.length > 0) {
+      teacherData.subjects = this.teacherSubjects;
+    } else if (this.newSubject.trim() !== '') {
+      // If there is a new subject entered, add it
+      teacherData.subjects = [this.newSubject];
+    }
+  
+    // Check if we are editing an existing teacher
+    if (this.isEditing && this.currentTeacherCIN !== null) {
+      // Update the teacher with the CIN
+      this.teacherService.updateTeacher(this.currentTeacherCIN, teacherData).subscribe(
+        () => {
+          this.fetchTeachers();
+          this.cancelEdit();
+        },
+        (error: HttpErrorResponse) => {
+          console.error('Error updating teacher:', error);
+        }
+      );
+    } else if (!this.isEditing) {
+      // Create a new teacher
+      this.teacherService.addTeacher(teacherData).subscribe(
+        (newTeacher: any) => {
+          this.fetchTeachers();
+          this.cancelEdit();
+        },
+        (error: HttpErrorResponse) => {
+          console.error('Error adding teacher:', error);
+        }
+      );
+    }
+  }
+  
+
+  // Method to cancel editing and reset form
+  cancelEdit(): void {
+    this.isEditing = false;
+    this.currentTeacherCIN = null;
+    this.resetForm();
+  }
 
   fetchTeachers(): void {
-    this.instructorService.getAllTeachers().subscribe(
+    this.teacherService.getAllTeachers().subscribe(
       (teachers) => {
-        console.log('Fetched teachers:', teachers);  // Log the response to verify the structure
+        console.log('Enseignants récupérés:', teachers);
         this.teachers = teachers;
       },
       (error: HttpErrorResponse) => {
-        console.error('Error fetching teachers:', error);
+        console.error('Erreur lors de la récupération des enseignants:', error);
       }
     );
   }
-  
-  // Fetch all subjects
+
   fetchSubjects(): void {
     this.subjectService.getAllSubjects().subscribe(
       (subjects) => {
         this.subjects = subjects;
       },
       (error: HttpErrorResponse) => {
-        console.error('Error fetching subjects:', error);
+        console.error('Erreur lors de la récupération des matières:', error);
       }
     );
   }
 
-  // Fetch teacher by CIN
   fetchTeacherByCIN(): void {
     if (!this.teacherCIN.trim()) {
       alert('Please enter a CIN.');
       return;
     }
 
-    this.instructorService.getTeacherByCIN(this.teacherCIN).subscribe(
+    this.teacherService.getTeacherByCIN(this.teacherCIN).subscribe(
       (teacher: any) => {
         this.selectedTeacher = teacher;
         console.log('Fetched teacher by CIN:', teacher);
@@ -95,79 +151,17 @@ export class AdminTeachersComponent implements OnInit {
     );
   }
 
-  // AdminTeachersComponent
-  saveTeacher(): void {
-    console.log('CIN:', this.teacherCIN); // Debugging CIN value
-    const teacherData = {
-      id: this.nextId, // Use the manually assigned ID
-      name: this.teacherName,
-      cin: this.teacherCIN, // Ensure CIN is included
-      subjects: this.teacherSubjects.length > 0 ? this.teacherSubjects : [this.newSubject],
-    };
-
-    if (this.isEditing && this.currentTeacherId !== null) {
-      // Update teacher with CIN and ID
-      this.instructorService.updateTeacher(
-        this.currentTeacherId,
-        teacherData.name,
-        teacherData.cin,  // Pass CIN here as well
-        teacherData.subjects
-      ).subscribe(
-        () => {
-          this.fetchTeachers();
-          this.cancelEdit();
-        },
-        (error: HttpErrorResponse) => {
-          console.error('Error updating teacher:', error);
-        }
-      );
-    } else if (!this.isEditing) {
-      // Create teacher with CIN and manually assigned ID
-      this.instructorService.createTeacher(
-        teacherData.name,
-        teacherData.cin,  // Pass CIN here as well
-        teacherData.subjects
-      ).subscribe(
-        (newTeacher: any) => {
-          // After creating the teacher, increment the ID for the next teacher
-          this.nextId++; // Increment the ID for the next teacher
-          // Redirect to the edit page with the newly created teacher's ID
-        },
-        (error: HttpErrorResponse) => {
-          console.error('Error adding teacher:', error);
-        }
-      );
-    }
-  }
-
-  editTeacher(teacher: any): void {
-    console.log('Editing teacher with ID:', teacher.id); // Debugging line
-    this.isEditing = true;
-    this.currentTeacherId = teacher.id;
-    this.teacherName = teacher.name;
-    this.teacherCIN = teacher.cin;
-    this.teacherSubjects = teacher.subjects || [];
-  }
-
-  // Delete teacher
-  deleteTeacher(teacherId: number): void {
-    if (confirm('Are you sure you want to delete this teacher?')) {
-      this.instructorService.deleteTeacher(teacherId).subscribe(
+  deleteTeacher(cin: string): void {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet enseignant ?')) {
+      this.teacherService.deleteTeacher(cin).subscribe(
         () => {
           this.fetchTeachers();
         },
         (error: HttpErrorResponse) => {
-          console.error('Error deleting teacher:', error);
+          console.error('Erreur lors de la suppression de l\'enseignant:', error);
         }
       );
     }
-  }
-
-  // Cancel edit mode and reset form
-  cancelEdit(): void {
-    this.isEditing = false;
-    this.currentTeacherId = null;
-    this.resetForm();
   }
 
   // Reset form fields
@@ -177,7 +171,7 @@ export class AdminTeachersComponent implements OnInit {
     this.teacherSubjects = [];
     this.newSubject = '';
   }
-  
+
   onSearch() {
     const query = this.searchQuery.toLowerCase().trim();
 
@@ -196,5 +190,5 @@ export class AdminTeachersComponent implements OnInit {
     } else if (query.includes('home') || query.includes('admin')) {
       this.router.navigate(['/admin/home']);
     }
-
-}}
+  }
+}

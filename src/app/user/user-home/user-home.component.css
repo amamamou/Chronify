@@ -335,8 +335,7 @@
   button:hover {
     background-color: #365ab2;
   }
-  /* Overlay for messages */
-.overlay {
+  .overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -374,48 +373,7 @@
   .close-button:hover {
     color: darkred;
   }
-  /* Schedule container style */
-/* Schedule Table Styling */
-.schedule-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
 
-.schedule-table th,
-.schedule-table td {
-  padding: 12px;
-  text-align: left;
-  border: 1px solid #ddd;
-}
-
-.schedule-table th {
-  background-color: #4e7bbf;
-  color: white;
-  font-size: 16px;
-}
-
-.schedule-table td {
-  font-size: 14px;
-  color: #333;
-}
-
-.schedule-table tr{
-  background-color: #f9f9f9;
-}
-
-.schedule-table tr:hover {
-  background-color: #f1f1f1;
-}
-.schedule-container {
-    position: relative;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: auto;
-    margin: 0 auto;
-}
 .sender {
     font-weight: bold;
     color: #4e7bbf;
@@ -636,12 +594,7 @@
     outline: none;
     box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.4);
   }
-  .schedule-table tbody tr td:first-child {
-    background-color: #4e7bbf;
-    color: #ffffff; /* Optional: Makes the text white for better contrast */
-    font-weight: bold; /* Optional: Highlights the time column */
-    text-align: center; /* Optional: Centers the text */
-  }
+ 
   
 /* Table Styling */
 table {
@@ -675,30 +628,309 @@ table tr:hover {
   background-color: #e1e1e1;
 }
 
-/* No Schedule Message */
-.schedule-section p {
-  font-size: 1.1rem;
-  color: #888;
+/* Overlay Style */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+
+/* Section Header */
+.schedule-container h2 {
+  font-size: 1.5rem;
+  color: #4e7bbf;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Section Description */
+.section-description {
+  font-size: 1rem;
+  color: #555;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #ff0000;
+}
+
+/* Print Button */
+.print-button {
+  background-color: #4e7bbf;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.print-button:hover {
+  background-color: #365a9a;
+}
+
+/* Schedule Section */
+.schedule-section {
   margin-top: 20px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Schedule Grid */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Day Group */
+.day-group {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Time Slot */
+.time-slot {
+  margin-top: 10px;
+}
+/* Schedule container style */
+.schedule-container {
+  position: relative;
+  padding: 10px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: auto;
+  margin: 0 auto;
+}
+
+
+
+.schedule-container {
+  max-height: 80vh; /* Set a max height for the schedule container (80% of the viewport height) */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 10px; /* Optional: adds padding for the scroll bar */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #fff; /* Background color for a clean, professional look */
+  border-radius: 10px; /* Rounded corners for a softer look */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.schedule-section {
+  padding: 20px;
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* Creates 7 equal-width columns for each day */
+  gap: 15px;
+  width: 100%;
+}
+
+.day-group {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9; /* Light background for each day */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for each day block */
+}
+
+.day-group h3 {
+  font-size: 1.2em;
+  color: #4e7bbf; /* Blue color for day titles */
+  font-weight: bold;
+  text-align: center;
+}
+
+.time-slot {
+  margin-left: 10px;
+  margin-bottom: 15px;
+}
+
+.schedule-item {
+  background-color: #f4f4f4;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+.schedule-item:hover {
+  transform: translateY(-5px); /* Slight lift effect on hover */
+}
+
+.schedule-item p {
+  margin: 5px 0;
+}
+
+.schedule-item strong {
+  font-size: 1.1em;
+  color: #333; /* Dark color for teacher name */
+}
+
+.schedule-item em {
+  font-size: 1em;
+  color: #555; /* Lighter color for subject */
+}
+
+.room {
+  font-size: 0.9em;
+  color: #888; /* Lighter color for room info */
+  font-style: italic;
+}
+
+h2 {
+  font-size: 2em;
+  color: #4e7bbf;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.section-description {
+  font-size: 1.1em;
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+
+button:hover {
+  background-color: #365f9e; /* Darker shade on hover */
+}
+
+.print-button {
+  margin-bottom: 20px;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 1.5em;
+  color: #333;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #e74c3c;
+}
+h4 {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+/* No Classes Text Styling */
+.no-classes-text {
+  font-size:0.8em;/* Slightly larger text for emphasis */
+  font-weight: 500; /* Medium weight for a professional look */
+  color: #4a4a4a; /* Dark gray for a classy, neutral tone */
+  text-align: center; /* Center align for balance */
+  background-color: #f4f4f4; /* Light background for contrast */
+
+}
+
+.lunch-break-text {
+  color: rgb(200, 64, 64);
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+/* Print Media Query */
+@media print {
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 8pt; /* Smaller text for print */
+    margin: 0;
+    padding: 0;
+  }
+
   .schedule-container {
-    padding: 15px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    page-break-before: always;
   }
 
-  .schedule-container h2 {
-    font-size: 1.5rem;
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 3 columns for 6 grids */
+    gap: 5px;
+    margin-bottom: 10px;
   }
 
-  .print-button, .close-button {
-    font-size: 1rem;
-    padding: 8px 12px;
+  .day-group {
+    border: 1px solid #000;
+    padding: 5px;
+    font-size: 0.7em; /* Smaller font size for print */
+    page-break-inside: avoid;
   }
 
-  table th, table td {
-    padding: 8px;
-    font-size: 0.9rem;
+  .time-slot {
+    padding-left: 5px;
+    padding-right: 5px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 5px;
+  }
+
+  .schedule-item {
+    margin-bottom: 5px;
+    padding: 3px;
+  }
+
+  .lunch-break-text, .no-classes-text {
+    font-size: 0.7em;
+    font-style: italic;
+  }
+
+  .print-button {
+    display: none;
+  }
+
+  /* Force everything to fit within one page */
+  @page {
+    size: A4;
+    margin: 5mm; /* Reduce margins to fit more content */
+  }
+
+  /* Prevent page breaks inside the schedule */
+  .schedule-section {
+    page-break-before: always;
+  }
+
+  /* Ensure content fits on one page */
+  .schedule-container {
+    page-break-after: always;
   }
 }

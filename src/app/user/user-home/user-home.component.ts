@@ -30,6 +30,16 @@ export interface StudentProfile {
   photoUrl?: string;
 }
 
+interface TimeSlot {
+  time: string;
+  schedules: any[]; // You can replace `any` with a more specific type if you have a defined schedule type
+}
+
+interface DayGroup {
+  day: string;
+  timeSlots: TimeSlot[];
+}
+
 @Component({
   selector: 'app-user-home',
   templateUrl: './user-home.component.html',
@@ -81,23 +91,38 @@ export class UserHomeComponent {
     { title: 'Event Reminder', description: 'Your upcoming event is starting soon.' },
   ];
 
+  timeSlots = [
+    { time: '08:00 - 09:00' },
+    { time: '09:00 - 10:00' },
+    { time: '10:00 - 11:00' },
+    { time: '11:00 - 12:00' },
+    { time: '12:00 - 13:00' },
+    { time: '13:00 - 14:00' },
+    { time: '14:00 - 15:00' },
+    { time: '15:00 - 16:00' },
+  ];
+
+  days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+
   userDetails: UserDetails = { username: '', email: '', cin: '', id: '', role: '', classId: '' };
   schedule: any[] = [];
+  schedules: any[] = [];
 
   dots = [0, 1, 2];
   activeEventIndex = 0;
   activeCourseIndex = 0;
- // Visibility flags for overlays
- isProfileVisible = false;
- isProfileFormVisible = false;
- isScheduleVisible = false;
- isMessagesVisible = false;
- isSupportVisible = false;
 
- selectedDay: string = '';
- selectedTeacher: string = '';
- selectedClass: string = '';
- activeIndex1: number = 0; // Example property
+  // Visibility flags for overlays
+  isProfileVisible = false;
+  isProfileFormVisible = false;
+  isScheduleVisible = false;
+  isMessagesVisible = false;
+  isSupportVisible = false;
+
+  selectedDay: string = '';
+  selectedTeacher: string = '';
+  selectedClass: string = '';
+  activeIndex1: number = 0; // Example property
   activeIndex2: number = 0;
 
   constructor(
@@ -106,20 +131,20 @@ export class UserHomeComponent {
     private scheduleService: ScheduleService
   ) {}
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     // Fetch user details from AuthService
     const fetchedDetails = this.authService.getUserDetails();
     if (fetchedDetails) {
       this.userDetails = fetchedDetails;
       console.log('Logged in user details:', this.userDetails);
-  
+
       // Fetch schedule based on the user's class ID
       if (this.userDetails.classId) {
-        this.getScheduleByClassId(this.userDetails.classId);
+        this.getScheduleByClassIdAndGroup(this.userDetails.classId);
       } else {
         console.warn('Class ID not found in fetched details.');
       }
-  
+
       // Set the email field in reclamationData
       if (this.userDetails.email) {
         this.reclamationData.email = this.userDetails.email;
@@ -130,12 +155,68 @@ export class UserHomeComponent {
       console.error('No user details found. Please log in.');
     }
   }
+
+  get filteredSchedules(): any[] {
+    return this.schedules.filter((schedule) => {
+      return (
+        (!this.selectedDay || schedule.day === this.selectedDay) &&
+        (!this.selectedTeacher ||
+          schedule.teacher?.name.toLowerCase().includes(this.selectedTeacher.toLowerCase())) &&
+        (!this.selectedClass ||
+          schedule.class?.name.toLowerCase().includes(this.selectedClass.toLowerCase()))
+      );
+    });
+  }
+  scheduleByTime: any[] = [];
+
+
+  scheduleByDayAndTime: any[] = [];
+
+  getScheduleByClassIdAndGroup(classId: string): void {
+    this.scheduleService.getSchedulesByClassId(classId).subscribe(
+      (data) => {
+        if (data && Array.isArray(data)) {
+          // Initialize the scheduleByDayAndTime array
+          this.scheduleByDayAndTime = this.days.map(day => ({
+            day,
+            timeSlots: this.timeSlots.map(slot => ({
+              time: slot.time,
+              schedules: []  // This will hold the schedules for this time slot
+            }))
+          }));
   
+          // Group the schedules by day and time slot
+          data.forEach((schedule) => {
+            const scheduleDay = schedule.day;
+            const scheduleTime = `${schedule.startTime} - ${schedule.endTime}`;
+  
+            // Find the correct day and time slot to insert the schedule
+            const dayGroup = this.scheduleByDayAndTime.find(group => group.day === scheduleDay);
+            if (dayGroup) {
+              const timeSlotGroup = dayGroup.timeSlots.find((ts: TimeSlot) => ts.time === scheduleTime);
+              if (timeSlotGroup) {
+                timeSlotGroup.schedules.push(schedule);
+              }
+            }
+          });
+  
+          console.log('Grouped schedule:', this.scheduleByDayAndTime);
+        } else {
+          console.warn('No valid schedule data received');
+        }
+      },
+      (error) => {
+        console.error('Error fetching schedule:', error);
+      }
+    );
+  }
+  
+
   getScheduleByClassId(classId: string): void {
     this.scheduleService.getSchedulesByClassId(classId).subscribe(
       (data) => {
+        console.log('Fetched schedule:', data);
         this.schedule = data;
-        console.log('Fetched schedule:', this.schedule);
       },
       (error) => {
         console.error('Error fetching schedule:', error);
@@ -200,27 +281,19 @@ export class UserHomeComponent {
   scrollToCourseGroup(index: number): void {
     this.activeCourseIndex = index;
     const container = document.getElementById('courses-container');
-    const groupWidth = 100 * 3;
+    const groupWidth = 350 * 3;
     container?.scrollTo({ left: index * groupWidth, behavior: 'smooth' });
   }
- // Print schedule
- printSchedule(): void {
-  window.print();
-}
-updateActiveDot(containerId: string, activeIndexName: keyof this): void {
-  const container = document.getElementById(containerId);
-  const groupWidth = 200 * 3; // 3 cards per group (you can adjust this)
-
-  if (container) {
-    const scrollPosition = container.scrollLeft;
-    const index = Math.floor(scrollPosition / groupWidth);
-
-    // Dynamically access activeIndexName property and cast it as a number
-    if (typeof this[activeIndexName] === 'number' && this[activeIndexName] !== index) {
-      this[activeIndexName] = index as any; // Use 'as any' to bypass the type error
-    }
+  // Print schedule
+  printSchedule(): void {
+    window.print();
   }
-}
 
+  updateActiveDot(containerId: string, activeIndexName: keyof this): void {
+  const container = document.getElementById(containerId);
+  const groupWidth = 350 * 3;
+  const activeIndex = Number(this[activeIndexName]); // Ensure the value is a number
+  container?.scrollTo({ left: activeIndex * groupWidth, behavior: 'smooth' });
+}
 
 }

@@ -85,54 +85,61 @@
     </form>
   </div>
 
-  <!-- List of Teachers -->
-  <p class="section-title">All Teachers</p>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Teacher Name</th>
-        <th>CIN</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let teacher of teachers; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ teacher.name || 'No name' }}</td>
-        <td>{{ teacher.cin || 'No CIN' }}</td>
-        <td>
-          <!-- Edit Teacher Button -->
-          <button
-            class="action-btn"
-            title="Edit Teacher"
-            (click)="editTeacher(teacher)"
-          >
-            <img
-              src="assets/icons/Button_Edit.png"
-              alt="Edit"
-              width="80"
-              height="30"
-            />
-          </button>
+ <!-- List of Teachers -->
+<p class="section-title">All Teachers</p>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>CIN</th>
+      <th>Teacher Name</th>
+      <th>Subjects</th> <!-- Add a new column for subjects -->
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let teacher of teachers; let i = index">
+      <td>{{ teacher.cin || 'No CIN' }}</td>
+      <td>{{ teacher.name || 'No name' }}</td>
+      <td>
+        <!-- Display subjects if they exist, otherwise display 'No subjects' -->
+        <span *ngIf="teacher.subjects && teacher.subjects.length > 0">
+          {{ teacher.subjects.join(', ') }}
+        </span>
+        <span *ngIf="!teacher.subjects || teacher.subjects.length === 0">No subjects</span>
+      </td>
+      <td>
+        <!-- Edit Teacher Button -->
+        <button
+          class="action-btn"
+          title="Edit Teacher"
+          (click)="editTeacher(teacher)"
+        >
+          <img
+            src="assets/icons/Button_Edit.png"
+            alt="Edit"
+            width="80"
+            height="30"
+          />
+        </button>
 
-          <!-- Delete Teacher Button -->
-          <button
-            class="action-btn"
-            title="Delete Teacher"
-            (click)="deleteTeacher(teacher.id)"
-          >
-            <img
-              src="assets/icons/Button_Del.png"
-              alt="Delete"
-              width="80"
-              height="30"
-            />
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        <!-- Delete Teacher Button -->
+        <button
+          class="action-btn"
+          title="Delete Teacher"
+          (click)="deleteTeacher(teacher.cin)"
+        >
+          <img
+            src="assets/icons/Button_Del.png"
+            alt="Delete"
+            width="80"
+            height="30"
+          />
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
    <!-- Footer Section -->
    <div class="footer">
     <p>&copy; 2025 TimeMaster. All rights reserved.</p>

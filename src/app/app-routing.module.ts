@@ -21,33 +21,35 @@ import { RegisterComponent } from './register/register.component';
 import { CheckemailComponent } from './checkemail/checkemail.component';
 import { AdminReclamationComponent } from './admin/admin-reclamation/admin-reclamation.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
+import { AuthGuard } from './services/authguard.service';
 
-// Define routes
 const routes: Routes = [
-  // Non-admin routes
-  { path: '', component: HomeComponent }, // Route for the home component
-  { path: 'login', component: LoginComponent }, // Route for the login component
-  { path: 'schedule', component: ScheduleComponent }, // Route for the schedule component
-  { path: 'register', component: RegisterComponent }, // Route for the register component
-  { path: 'checkemail', component: CheckemailComponent }, // Check email
+  // Routes non protégées
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'schedule', component: ScheduleComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'checkemail', component: CheckemailComponent },
 
-  // User-related routes
-  { path: 'user', component: UserHomeComponent }, // User profile 
-  { path: 'teacher', component: TeacherHomeComponent }, // Teacher profile
+  // Routes de l'utilisateur
+  { path: 'user', component: UserHomeComponent, canActivate: [AuthGuard], data: { role: 'student' } },
 
-  // Admin-related routes
-  { path: 'admin/home', component: AdminHomeComponent }, // Admin students management
-  { path: 'admin/users', component: AdminUsersComponent }, // Admin users management
-  { path: 'admin/students', component: AdminStudentsComponent }, // Admin students management
-  { path: 'admin/teachers', component: AdminTeachersComponent }, // Admin teachers management
-  { path: 'admin/establishments', component: AdminEstablishmentsComponent }, // Admin establishments management
-  { path: 'admin/classrooms', component: AdminClassroomsComponent }, // Admin classrooms management
-  { path: 'admin/classes', component: AdminClassComponent }, // Admin classes management
-  { path: 'admin/courses', component: AdminCourseComponent }, // Admin courses management
-  { path: 'admin/schedule', component: AdminScheduleComponent }, // Admin schedule management
-  { path: 'admin/reclamations', component: AdminReclamationComponent }, // Admin complaints management
+  // Routes de l'enseignant
+  { path: 'teacher', component: TeacherHomeComponent, canActivate: [AuthGuard], data: { role: 'teacher' } },
 
+  // Routes de l'administrateur
+  { path: 'admin/home', component: AdminHomeComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'admin/users', component: AdminUsersComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'admin/students', component: AdminStudentsComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'admin/teachers', component: AdminTeachersComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'admin/establishments', component: AdminEstablishmentsComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'admin/classrooms', component: AdminClassroomsComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'admin/classes', component: AdminClassComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'admin/courses', component: AdminCourseComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'admin/schedule', component: AdminScheduleComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'admin/reclamations', component: AdminReclamationComponent, canActivate: [AuthGuard], data: { role: 'admin' } }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
